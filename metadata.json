@@ -1,0 +1,6 @@
+{
+  "name": "Academic Velocity & Repton Readiness Tracker",
+  "description": "Comprehensive academic progress dashboard tracking Radley College readiness across Edexcel Maths, Further Maths, AQA Physics, and CIE Computer Science, plus SAT 1550+ prep.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

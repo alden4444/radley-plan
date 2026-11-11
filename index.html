@@ -1,0 +1,1797 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A-Levels & SAT Plan</title>
+  <meta name="description" content="Study plan tracking A-Levels for Radley College (July 2027) and SAT prep." />
+  <meta property="og:title" content="A-Levels & SAT Plan" />
+  <meta property="og:description" content="Study plan tracking A-Levels for Radley College (July 2027) and SAT prep." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="theme-color" content="#090a0c" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="A-Levels Plan" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2318181b'/><text x='50%' y='55%' font-size='50' font-family='sans-serif' font-weight='bold' fill='%23fafafa' dominant-baseline='middle' text-anchor='middle'>A</text></svg>" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+            mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace']
+          },
+          colors: {
+            base: {
+              950: '#090a0c',
+              900: '#101216',
+              850: '#16181d',
+              800: '#1f2229',
+              700: '#2c303a',
+              600: '#404552'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+
+  <style>
+    /* Clean, ultra-minimal typography and interactions */
+    body {
+      background-color: #090a0c;
+      color: #d4d4d8;
+    }
+    ::selection {
+      background-color: #27272a;
+      color: #fafafa;
+    }
+    input[type="checkbox"] {
+      accent-color: #71717a;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #090a0c;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #27272a;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #3f3f46;
+    }
+  </style>
+</head>
+<body class="min-h-screen text-zinc-300 font-sans antialiased text-sm">
+
+  <!-- Minimal Toast notification -->
+  <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- Reset Confirmation Modal -->
+  <div id="reset-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-xs hidden opacity-0 transition-opacity duration-150">
+    <div class="bg-base-900 border border-zinc-800 rounded-lg p-5 max-w-sm w-full mx-4 shadow-xl">
+      <h3 class="text-sm font-semibold text-zinc-100 mb-2">Reset to initial baseline?</h3>
+      <p class="text-xs text-zinc-400 mb-4 leading-relaxed">
+        This will restore the default checked topics (Maths ~40% Pure, FM 2.1, Physics 3.1, CS Papers 1 & 2) and baseline test scores.
+      </p>
+      <div class="flex justify-end gap-2 text-xs">
+        <button id="cancel-reset-btn" class="px-3 py-1.5 rounded text-zinc-300 hover:text-white bg-zinc-800 hover:bg-zinc-700 transition-colors">Cancel</button>
+        <button id="confirm-reset-btn" class="px-3 py-1.5 rounded text-white bg-red-800 hover:bg-red-700 transition-colors">Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Log Test Score Modal -->
+  <div id="sat-score-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-xs hidden opacity-0 transition-opacity duration-150">
+    <div class="bg-base-900 border border-zinc-800 rounded-lg p-5 max-w-md w-full mx-4 shadow-xl">
+      <div class="flex items-center justify-between pb-3 border-b border-zinc-800 mb-4">
+        <h3 class="text-sm font-semibold text-zinc-100" id="sat-modal-title">Log Practice Test</h3>
+        <button id="close-sat-modal" class="text-zinc-500 hover:text-zinc-300 text-xs">esc</button>
+      </div>
+      <form id="sat-score-form" class="space-y-3 text-xs">
+        <input type="hidden" id="modal-test-id" value="" />
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-zinc-400 mb-1">Test Name</label>
+            <input type="text" id="modal-test-name" required placeholder="Practice Test 1" class="w-full bg-base-950 border border-zinc-800 rounded px-2.5 py-1.5 text-zinc-200 focus:outline-none focus:border-zinc-600" />
+          </div>
+          <div>
+            <label class="block text-zinc-400 mb-1">Date</label>
+            <input type="date" id="modal-test-date" required class="w-full bg-base-950 border border-zinc-800 rounded px-2.5 py-1.5 text-zinc-200 focus:outline-none focus:border-zinc-600" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-zinc-400 mb-1">Math (200–800)</label>
+            <input type="number" id="modal-test-math" min="200" max="800" step="10" required placeholder="740" class="w-full bg-base-950 border border-zinc-800 rounded px-2.5 py-1.5 text-zinc-200 focus:outline-none focus:border-zinc-600" />
+          </div>
+          <div>
+            <label class="block text-zinc-400 mb-1">Reading & Writing (200–800)</label>
+            <input type="number" id="modal-test-rw" min="200" max="800" step="10" required placeholder="710" class="w-full bg-base-950 border border-zinc-800 rounded px-2.5 py-1.5 text-zinc-200 focus:outline-none focus:border-zinc-600" />
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between py-2 px-3 bg-base-950 border border-zinc-800/80 rounded">
+          <span class="text-zinc-400">Total Score:</span>
+          <span class="font-mono font-semibold text-zinc-100" id="modal-calculated-total">--</span>
+        </div>
+
+        <div>
+          <label class="block text-zinc-400 mb-1">Notes</label>
+          <input type="text" id="modal-test-notes" placeholder="e.g. 2 missed on quadratic systems, timing ok" class="w-full bg-base-950 border border-zinc-800 rounded px-2.5 py-1.5 text-zinc-200 focus:outline-none focus:border-zinc-600" />
+        </div>
+
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" id="cancel-sat-modal-btn" class="px-3 py-1.5 rounded text-zinc-400 hover:text-zinc-200 bg-zinc-800/80 hover:bg-zinc-800 transition-colors">Cancel</button>
+          <button type="submit" class="px-3 py-1.5 rounded text-white bg-zinc-700 hover:bg-zinc-600 font-medium transition-colors">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <input type="file" id="import-json-file" accept=".json" class="hidden" />
+
+  <!-- Layout Container -->
+  <main class="max-w-5xl mx-auto px-4 py-8 sm:py-10 space-y-8">
+
+    <!-- 1. HEADER (Simple, human) -->
+    <header class="border-b border-zinc-800/80 pb-5">
+      <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3">
+        <div>
+          <h1 class="text-lg font-semibold tracking-tight text-zinc-100">A-Levels & SAT Plan</h1>
+          <p class="text-xs text-zinc-500 mt-0.5">
+            Radley College (July 2027) & SAT 1550+ target (March 13, 2027)
+          </p>
+        </div>
+
+        <!-- Plain, clean actions -->
+        <div class="flex items-center gap-2 text-xs">
+          <button id="download-html-btn" class="px-2.5 py-1 rounded border border-zinc-700 bg-zinc-800 hover:bg-zinc-700 text-zinc-100 transition-colors font-medium" title="Download standalone HTML file to run on any device">Download App</button>
+          <button id="export-json-btn" class="px-2.5 py-1 rounded border border-zinc-800 bg-base-900 hover:bg-zinc-800 text-zinc-300 transition-colors" title="Export progress data to JSON">Export Data</button>
+          <button id="import-json-btn" class="px-2.5 py-1 rounded border border-zinc-800 bg-base-900 hover:bg-zinc-800 text-zinc-300 transition-colors" title="Import progress data from JSON">Import Data</button>
+          <button id="reset-baseline-btn" class="px-2.5 py-1 rounded border border-zinc-800/80 hover:border-red-900/60 text-zinc-500 hover:text-red-400 transition-colors">Reset</button>
+        </div>
+      </div>
+
+      <!-- Compact metrics row -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-5 pt-4 border-t border-zinc-850">
+        <div>
+          <div class="text-[11px] text-zinc-500">SAT (March 13, 2027)</div>
+          <div class="text-sm font-mono font-medium text-zinc-200 mt-0.5" id="sat-countdown">--</div>
+        </div>
+        <div>
+          <div class="text-[11px] text-zinc-500">Radley College (July 3, 2027)</div>
+          <div class="text-sm font-mono font-medium text-zinc-200 mt-0.5" id="radley-countdown">--</div>
+        </div>
+        <div>
+          <div class="text-[11px] text-zinc-500">Syllabus Progress</div>
+          <div class="text-sm font-mono font-medium text-zinc-200 mt-0.5 flex items-baseline gap-1.5">
+            <span id="global-subtopics-ratio">-- / --</span>
+            <span class="text-xs text-zinc-400 font-normal" id="global-percentage-text">(0%)</span>
+          </div>
+        </div>
+        <div>
+          <div class="text-[11px] text-zinc-500">Pace vs Target</div>
+          <div class="text-sm font-mono font-medium text-zinc-200 mt-0.5" id="pace-summary-text">Calculating...</div>
+        </div>
+      </div>
+
+      <!-- Minimal Progress Bar -->
+      <div class="w-full bg-zinc-900 h-1 rounded-full mt-3 overflow-hidden">
+        <div id="global-progress-bar" class="bg-zinc-400 h-1 transition-all duration-300" style="width: 0%"></div>
+      </div>
+    </header>
+
+    <!-- 2. SAT 1550+ PREPARATION -->
+    <section class="border border-zinc-800/80 rounded-lg p-5 bg-base-900/60 space-y-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-sm font-semibold text-zinc-100">SAT Prep (Target 1550+)</h2>
+          <p class="text-xs text-zinc-500">Baseline 1300 (650M / 650RW) · Target 1550+ (790–800M / 750+RW)</p>
+        </div>
+        <button id="add-sat-score-btn" class="px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-750 text-zinc-200 text-xs border border-zinc-700/60 transition-colors">
+          + Log Test
+        </button>
+      </div>
+
+      <!-- Clean Chart -->
+      <div class="bg-base-950 border border-zinc-850 rounded p-3">
+        <div class="h-40 w-full relative">
+          <canvas id="sat-trajectory-chart"></canvas>
+        </div>
+      </div>
+
+      <!-- Tests Table -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-xs text-left border-collapse">
+          <thead>
+            <tr class="text-zinc-500 border-b border-zinc-800">
+              <th class="py-1.5 px-2 font-normal">Test</th>
+              <th class="py-1.5 px-2 font-normal">Date</th>
+              <th class="py-1.5 px-2 font-normal">Math</th>
+              <th class="py-1.5 px-2 font-normal">R&W</th>
+              <th class="py-1.5 px-2 font-normal">Total</th>
+              <th class="py-1.5 px-2 font-normal">Notes</th>
+              <th class="py-1.5 px-2 text-right font-normal"></th>
+            </tr>
+          </thead>
+          <tbody id="sat-tests-tbody" class="divide-y divide-zinc-850">
+            <!-- Dynamic rows -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Minimal Checklist -->
+      <div class="pt-3 border-t border-zinc-800/70">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-medium text-zinc-400">High-Yield Checkpoints</span>
+          <span id="sat-checklist-counter" class="text-[11px] font-mono text-zinc-500">0/8</span>
+        </div>
+        <div id="sat-checklist-container" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+          <!-- Dynamic checklist items -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. WEEKLY SCHEDULE (20h / week) -->
+    <section class="border border-zinc-800/80 rounded-lg p-5 bg-base-900/60 space-y-3">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div>
+          <h2 class="text-sm font-semibold text-zinc-100">Weekly Schedule (20h / week)</h2>
+          <p class="text-xs text-zinc-500" id="schedule-subtext">Pre-SAT focus: 4h SAT prep / week. Reallocates to Stats & Mechanics after March 13.</p>
+        </div>
+        <div class="inline-flex rounded border border-zinc-800 bg-base-950 p-0.5 text-xs self-start sm:self-auto">
+          <button id="phase-presat-btn" class="px-2.5 py-1 rounded text-xs font-medium text-zinc-100 bg-zinc-800 transition-colors">Pre-SAT (Current)</button>
+          <button id="phase-postsat-btn" class="px-2.5 py-1 rounded text-xs font-medium text-zinc-400 hover:text-zinc-200 transition-colors">Post-March 13</button>
+        </div>
+      </div>
+
+      <!-- Clean Table of Schedule -->
+      <div class="overflow-x-auto pt-1">
+        <table class="w-full text-xs text-left border-collapse">
+          <thead>
+            <tr class="text-zinc-500 border-b border-zinc-800">
+              <th class="py-2 px-2.5 font-normal">Day</th>
+              <th class="py-2 px-2.5 font-normal">Morning</th>
+              <th class="py-2 px-2.5 font-normal">Midday</th>
+              <th class="py-2 px-2.5 font-normal">Afternoon</th>
+              <th class="py-2 px-2.5 text-right font-normal">Total</th>
+            </tr>
+          </thead>
+          <tbody id="schedule-tbody" class="divide-y divide-zinc-850">
+            <!-- Dynamic days -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 4. SYLLABUS -->
+    <section class="space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-800/80 pb-3">
+        <div>
+          <h2 class="text-sm font-semibold text-zinc-100">Syllabus</h2>
+          <p class="text-xs text-zinc-500">Track individual subtopics across all 4 subjects</p>
+        </div>
+
+        <div class="flex items-center gap-2 text-xs">
+          <input type="text" id="subtopic-search" placeholder="Search..." class="bg-base-900 border border-zinc-800 rounded px-2.5 py-1 text-xs text-zinc-200 focus:outline-none focus:border-zinc-600 w-36 sm:w-44" />
+          <select id="subtopic-filter-status" class="bg-base-900 border border-zinc-800 rounded px-2 py-1 text-xs text-zinc-300 focus:outline-none">
+            <option value="all">All</option>
+            <option value="incomplete">Incomplete</option>
+            <option value="completed">Completed</option>
+          </select>
+          <button id="toggle-all-topics-btn" class="px-2 py-1 rounded border border-zinc-800 bg-base-900 text-zinc-400 hover:text-zinc-200">
+            Collapse All
+          </button>
+        </div>
+      </div>
+
+      <!-- Minimal Tabs -->
+      <div class="flex border-b border-zinc-800 gap-1 overflow-x-auto text-xs" id="subject-tabs-container">
+        <!-- Tab buttons -->
+      </div>
+
+      <!-- Active Subject Status Bar -->
+      <div class="flex items-center justify-between py-2 px-1 text-xs text-zinc-400">
+        <div id="subject-status-left" class="flex items-center gap-2">
+          <!-- e.g. Single Maths (9MA0) -->
+        </div>
+        <div id="subject-status-right" class="font-mono text-zinc-300">
+          <!-- 46 / 99 (46%) -->
+        </div>
+      </div>
+
+      <!-- Topics Accordion List -->
+      <div id="curriculum-topics-container" class="space-y-2">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <footer class="pt-6 pb-12 border-t border-zinc-850 text-xs text-zinc-600 flex justify-between items-center">
+      <span>Radley College Plan · 2026–2027</span>
+      <span>Saved locally</span>
+    </footer>
+
+  </main>
+
+  <!-- JAVASCRIPT LOGIC & EMBEDDED SYLLABUS -->
+  <script>
+    const SYLLABUS_DATA = {
+      "subjects": [
+        {
+          "id": "edexcel_single_maths",
+          "name": "Single Maths",
+          "full_name": "Edexcel A-Level Mathematics",
+          "spec_code": "9MA0",
+          "sections": [
+            {
+              "name": "Pure Mathematics",
+              "topics": [
+                {
+                  "id": "9ma0_1_proof",
+                  "title": "1. Proof",
+                  "subtopics": [
+                    "1.1 Proof by deduction",
+                    "1.1 Proof by exhaustion",
+                    "1.1 Disproof by counter-example",
+                    "1.1 Proof by contradiction (irrationality of sqrt(2) and infinity of primes)"
+                  ]
+                },
+                {
+                  "id": "9ma0_2_algebra",
+                  "title": "2. Algebra and Functions",
+                  "subtopics": [
+                    "2.1 Laws of indices for rational exponents",
+                    "2.2 Surds and rationalising denominator",
+                    "2.3 Quadratic functions, graphs, discriminant, completing the square",
+                    "2.4 Simultaneous equations (linear and quadratic)",
+                    "2.5 Linear and quadratic inequalities, set notation and regions",
+                    "2.6 Polynomial manipulation, factor theorem, rational expressions",
+                    "2.7 Graphs (cubics, quartics, modulus |ax+b|, reciprocal, asymptotes)",
+                    "2.8 Composite and inverse functions, domains and ranges",
+                    "2.9 Graph transformations (translations, stretches, reflections, y=|f(x)|, y=f(|x|))",
+                    "2.10 Partial fractions (linear and squared linear denominators)",
+                    "2.11 Modelling with functions, limitations and refinements"
+                  ]
+                },
+                {
+                  "id": "9ma0_3_coord_geom",
+                  "title": "3. Coordinate Geometry",
+                  "subtopics": [
+                    "3.1 Straight lines: y - y1 = m(x - x1), ax + by + c = 0, parallel/perp conditions",
+                    "3.2 Circles: (x - a)^2 + (y - b)^2 = r^2, tangent/chord properties",
+                    "3.3 Parametric equations of curves and Cartesian conversions",
+                    "3.4 Parametric modelling in context"
+                  ]
+                },
+                {
+                  "id": "9ma0_4_sequences",
+                  "title": "4. Sequences and Series",
+                  "subtopics": [
+                    "4.1 Binomial expansion of (a + bx)^n for integer and rational n",
+                    "4.2 Sequences: nth term, recurrence relations x_{n+1} = f(x_n)",
+                    "4.3 Sigma notation for series",
+                    "4.4 Arithmetic sequences and series: nth term, sum formula derivation",
+                    "4.5 Geometric sequences and series: nth term, sum, sum to infinity (|r| < 1)",
+                    "4.6 Modelling in financial and natural contexts"
+                  ]
+                },
+                {
+                  "id": "9ma0_5_trig",
+                  "title": "5. Trigonometry",
+                  "subtopics": [
+                    "5.1 Sine, cosine, tangent definitions, sine rule, cosine rule, area = 1/2 ab sin C",
+                    "5.1 Radian measure, arc length (s = r theta), sector area (A = 1/2 r^2 theta)",
+                    "5.2 Small angle approximations: sin theta ~ theta, cos theta ~ 1 - theta^2/2, tan theta ~ theta",
+                    "5.3 Exact trig values, graphs, symmetries and periodicity",
+                    "5.4 Reciprocal trig functions: sec, cosec, cot; inverse: arcsin, arccos, arctan",
+                    "5.5 Pythagorean identities: tan = sin/cos, sin^2 + cos^2 = 1, sec^2 = 1 + tan^2, cosec^2 = 1 + cot^2",
+                    "5.6 Addition and double angle formulae: sin(A +/- B), cos(A +/- B), tan(A +/- B)",
+                    "5.7 Harmonic form: R cos(theta +/- alpha) or R sin(theta +/- alpha)",
+                    "5.8 Solving trigonometric equations in given intervals",
+                    "5.9 Trigonometric proofs and identities",
+                    "5.10 Trigonometric modelling in context"
+                  ]
+                },
+                {
+                  "id": "9ma0_6_exp_log",
+                  "title": "6. Exponentials and Logarithms",
+                  "subtopics": [
+                    "6.1 Function a^x and its graph (a > 0)",
+                    "6.2 Natural exponential e^x, derivative d/dx(e^{kx}) = k e^{kx}",
+                    "6.3 Logarithm definition log_a(x), natural logarithm ln(x) as inverse of e^x",
+                    "6.4 Laws of logarithms: log(xy) = log x + log y, log(x/y) = log x - log y, power law",
+                    "6.5 Solving exponential equations a^x = b",
+                    "6.6 Linearising non-linear laws: y = ax^n and y = kb^x using log graphs",
+                    "6.7 Exponential growth and decay modelling"
+                  ]
+                },
+                {
+                  "id": "9ma0_7_diff",
+                  "title": "7. Differentiation",
+                  "subtopics": [
+                    "7.1 Derivative as gradient of tangent, first principles",
+                    "7.2 Differentiating x^n, e^{kx}, a^{kx}, sin kx, cos kx, tan kx, ln x",
+                    "7.3 Gradients, tangents, normals, stationary points, inflection, concavity",
+                    "7.4 Product rule, quotient rule, chain rule; connected rates of change",
+                    "7.5 Implicit and parametric differentiation",
+                    "7.6 Setting up differential equations in context"
+                  ]
+                },
+                {
+                  "id": "9ma0_8_int",
+                  "title": "8. Integration",
+                  "subtopics": [
+                    "8.1 Fundamental Theorem of Calculus, indefinite integrals",
+                    "8.2 Standard integration: x^n, e^{kx}, 1/x, sin kx, cos kx, sec^2 kx",
+                    "8.3 Definite integrals: area under curve, between curves, parametric curves",
+                    "8.4 Integration as the limit of a Riemann sum",
+                    "8.5 Integration by substitution and parts",
+                    "8.6 Integration using partial fractions",
+                    "8.7 First order separable differential equations",
+                    "8.8 Differential equation interpretation in kinematics/context"
+                  ]
+                },
+                {
+                  "id": "9ma0_9_numerical",
+                  "title": "9. Numerical Methods",
+                  "subtopics": [
+                    "9.1 Root location by sign change, failure conditions",
+                    "9.2 Fixed point iteration x_{n+1} = f(x_n), cobweb diagrams",
+                    "9.3 Newton-Raphson method and failure modes",
+                    "9.4 Numerical integration using trapezium rule, error bounds",
+                    "9.5 Numerical methods in context"
+                  ]
+                },
+                {
+                  "id": "9ma0_10_vectors",
+                  "title": "10. Vectors",
+                  "subtopics": [
+                    "10.1 2D and 3D vectors: column notation and i, j, k unit vectors",
+                    "10.2 Magnitude, direction, unit vectors",
+                    "10.3 Vector addition, scalar multiplication, geometric interpretation",
+                    "10.4 Position vectors, distance between points in 3D",
+                    "10.5 Geometric problem solving and kinematics with vectors"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Statistics",
+              "topics": [
+                {
+                  "id": "9ma0_s1_sampling",
+                  "title": "1. Statistical Sampling",
+                  "subtopics": [
+                    "1.1 Population, sample, census advantages/disadvantages",
+                    "1.1 Random, stratified, systematic, quota, opportunity sampling",
+                    "1.1 Evaluating sampling techniques and sample bias"
+                  ]
+                },
+                {
+                  "id": "9ma0_s2_data",
+                  "title": "2. Data Presentation and Interpretation",
+                  "subtopics": [
+                    "2.1 Histograms, frequency polygons, box plots, cumulative frequency",
+                    "2.2 Bivariate data: scatter diagrams, regression lines, correlation vs causation",
+                    "2.3 Measures of central tendency (mean, median, mode) and variation (sd, IQR)",
+                    "2.4 Identifying outliers (1.5xIQR or 2/3 sigma rule), data cleaning",
+                    "2.5 Edexcel Large Data Set (LDS) familiarity"
+                  ]
+                },
+                {
+                  "id": "9ma0_s3_probability",
+                  "title": "3. Probability",
+                  "subtopics": [
+                    "3.1 Mutually exclusive and independent events, Venn/tree diagrams",
+                    "3.2 Conditional probability: P(A|B) = P(A and B) / P(B)",
+                    "3.3 Probability modelling and critique of assumptions"
+                  ]
+                },
+                {
+                  "id": "9ma0_s4_distributions",
+                  "title": "4. Statistical Distributions",
+                  "subtopics": [
+                    "4.1 Discrete distributions, uniform, binomial distribution B(n, p)",
+                    "4.2 Normal distribution N(mu, sigma^2), calculator usage, continuity correction",
+                    "4.3 Choosing appropriate probability distributions"
+                  ]
+                },
+                {
+                  "id": "9ma0_s5_hypothesis",
+                  "title": "5. Statistical Hypothesis Testing",
+                  "subtopics": [
+                    "5.1 Hypothesis vocabulary: H0, H1, significance level, 1-tail/2-tail, critical values",
+                    "5.1 Hypothesis test for correlation coefficient using tables/p-values",
+                    "5.2 Hypothesis test for proportion in binomial distribution B(n, p)",
+                    "5.3 Hypothesis test for mean of Normal distribution N(mu, sigma^2/n)"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Mechanics",
+              "topics": [
+                {
+                  "id": "9ma0_m6_quantities",
+                  "title": "6. Quantities and Units",
+                  "subtopics": [
+                    "6.1 SI base units and derived units in mechanics"
+                  ]
+                },
+                {
+                  "id": "9ma0_m7_kinematics",
+                  "title": "7. Kinematics",
+                  "subtopics": [
+                    "7.1 Kinematics language: displacement, velocity, acceleration",
+                    "7.2 Motion graphs (s-t, v-t), gradient and area interpretations",
+                    "7.3 Constant acceleration formulae (SUVAT) in 1D and 2D vector form",
+                    "7.4 Variable acceleration using calculus",
+                    "7.5 Projectile motion under gravity in vertical plane"
+                  ]
+                },
+                {
+                  "id": "9ma0_m8_forces",
+                  "title": "8. Forces and Newton's Laws",
+                  "subtopics": [
+                    "8.1 Newton's first law, normal reaction, tension, friction",
+                    "8.2 Newton's second law F = ma for motion in straight line",
+                    "8.3 Weight and motion under gravity (g = 9.8 m/s^2)",
+                    "8.4 Newton's third law, connected particles, pulleys, equilibrium",
+                    "8.5 Resolving forces in 2 dimensions, inclined planes",
+                    "8.6 Friction model: F <= mu*R, limiting friction"
+                  ]
+                },
+                {
+                  "id": "9ma0_m9_moments",
+                  "title": "9. Moments",
+                  "subtopics": [
+                    "9.1 Moments in simple static contexts: force x perpendicular distance, ladder problems"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "edexcel_further_maths",
+          "name": "Further Maths",
+          "full_name": "Edexcel A-Level Further Mathematics",
+          "spec_code": "9FM0",
+          "sections": [
+            {
+              "name": "Core Pure Mathematics 1 & 2",
+              "topics": [
+                {
+                  "id": "9fm0_cp_1_proof",
+                  "title": "1. Mathematical Induction",
+                  "subtopics": [
+                    "1.1 Proof by induction: summation of series",
+                    "1.1 Proof by induction: divisibility proofs",
+                    "1.1 Proof by induction: powers of matrices"
+                  ]
+                },
+                {
+                  "id": "9fm0_cp_2_complex",
+                  "title": "2. Complex Numbers",
+                  "subtopics": [
+                    "2.1 Solving quadratics, cubics, quartics with real coefficients (conjugate pair roots)",
+                    "2.2 Complex arithmetic in Cartesian form x + iy",
+                    "2.3 Complex conjugates and properties",
+                    "2.4 Argand diagrams, vector addition/subtraction",
+                    "2.5 Modulus-argument form conversions",
+                    "2.6 Multiplication and division in mod-arg form",
+                    "2.7 Loci in Argand plane: |z - a| = r, |z - a| = |z - b|, arg(z - a) = beta",
+                    "2.8 De Moivre's Theorem: multiple angle identities, trig powers, series sums",
+                    "2.9 Exponential form e^{i theta} and Euler's identities",
+                    "2.10 nth roots of complex numbers, regular n-gons",
+                    "2.11 Complex roots of unity and geometric problem solving"
+                  ]
+                },
+                {
+                  "id": "9fm0_cp_3_matrices",
+                  "title": "3. Matrices",
+                  "subtopics": [
+                    "3.1 Matrix addition, subtraction, multiplication, scalar multiplication",
+                    "3.2 Zero and identity matrices",
+                    "3.3 Linear transformations in 2D and 3D",
+                    "3.4 Invariant points and invariant lines",
+                    "3.5 Determinants of 2x2 and 3x3 matrices, area/volume scale factors",
+                    "3.6 Singular and non-singular matrices, inverse matrices",
+                    "3.7 Solving 3x3 linear simultaneous equations using inverse matrices",
+                    "3.8 Geometrical interpretation: unique point, sheaf, prism, inconsistent planes"
+                  ]
+                },
+                {
+                  "id": "9fm0_cp_4_algebra",
+                  "title": "4. Further Algebra and Functions",
+                  "subtopics": [
+                    "4.1 Roots and coefficients of polynomials (Vieta's formulae up to quartics)",
+                    "4.2 Linear transformations of polynomial roots",
+                    "4.3 Summation of standard series (sum r, sum r^2, sum r^3)",
+                    "4.4 Method of differences for series summation",
+                    "4.5 Maclaurin series expansions (e^x, ln(1+x), sin x, cos x, (1+x)^n)",
+                    "4.6 Series expansions of compound functions"
+                  ]
+                },
+                {
+                  "id": "9fm0_cp_5_calculus",
+                  "title": "5. Further Calculus",
+                  "subtopics": [
+                    "5.1 Volumes of revolution about x-axis and y-axis",
+                    "5.2 Evaluation of improper integrals",
+                    "5.3 Mean value of a function: 1/(b-a) int_a^b f(x) dx",
+                    "5.4 Integration using partial fractions with irreducible quadratics",
+                    "5.5 Differentiation of inverse trigonometric functions",
+                    "5.6 Integration involving standard forms and trigonometric substitutions"
+                  ]
+                },
+                {
+                  "id": "9fm0_cp_6_vectors",
+                  "title": "6. Further Vectors",
+                  "subtopics": [
+                    "6.1 3D line equations: vector form and Cartesian form",
+                    "6.2 Intersection of lines, skew lines, parallel lines",
+                    "6.3 Equation of a plane: vector and Cartesian forms",
+                    "6.4 Scalar product a.b = |a||b|cos theta, perpendicularity, r.n = k",
+                    "6.5 Angles between two lines, line and plane, two planes",
+                    "6.6 Shortest distances: point to line, point to plane, skew lines"
+                  ]
+                },
+                {
+                  "id": "9fm0_cp_7_polar",
+                  "title": "7. Polar Coordinates",
+                  "subtopics": [
+                    "7.1 Polar coordinates (r, theta) and Cartesian conversions",
+                    "7.2 Sketching polar curves (spirals, cardioids, rose curves)",
+                    "7.3 Area enclosed by a polar curve: 1/2 int r^2 dtheta",
+                    "7.4 Tangents parallel and perpendicular to initial line"
+                  ]
+                },
+                {
+                  "id": "9fm0_cp_8_hyperbolic",
+                  "title": "8. Hyperbolic Functions",
+                  "subtopics": [
+                    "8.1 Definitions of sinh x, cosh x, tanh x, graphs",
+                    "8.2 Differentiation and integration of hyperbolic functions",
+                    "8.3 Inverse hyperbolic functions arsinh, arcosh, artanh",
+                    "8.4 Logarithmic forms of inverse hyperbolic functions",
+                    "8.5 Integration using hyperbolic substitutions"
+                  ]
+                },
+                {
+                  "id": "9fm0_cp_9_diff_eq",
+                  "title": "9. Differential Equations",
+                  "subtopics": [
+                    "9.1 First order linear ODEs using integrating factors: dy/dx + P(x)y = Q(x)",
+                    "9.2 General and particular solutions, solution curves",
+                    "9.3 Second order homogeneous linear ODEs via auxiliary equation",
+                    "9.4 Second order non-homogeneous ODEs: CF + PI",
+                    "9.5 Simple Harmonic Motion ODE: d^2x/dt^2 = -omega^2 x",
+                    "9.6 Damped and forced harmonic oscillations, resonance",
+                    "9.7 Coupled first-order linear simultaneous differential equations"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "aqa_physics",
+          "name": "Physics",
+          "full_name": "AQA A-Level Physics",
+          "spec_code": "7408",
+          "sections": [
+            {
+              "name": "Core Content (1–8)",
+              "topics": [
+                {
+                  "id": "7408_1_measurements",
+                  "title": "3.1 Measurements and Errors",
+                  "subtopics": [
+                    "3.1.1 SI base units, derived units, prefixes, conversions",
+                    "3.1.2 Random and systematic errors, precision, resolution, accuracy",
+                    "3.1.2 Absolute, fractional, and percentage uncertainties; combining uncertainties",
+                    "3.1.2 Uncertainties in straight line gradients and intercepts",
+                    "3.1.3 Orders of magnitude estimations"
+                  ]
+                },
+                {
+                  "id": "7408_2_particles",
+                  "title": "3.2 Particles and Radiation",
+                  "subtopics": [
+                    "3.2.1.1 Atom constituents, specific charge, nuclide notation, isotopes",
+                    "3.2.1.2 Strong nuclear force, alpha/beta decay, neutrino hypothesis",
+                    "3.2.1.3 Antimatter, rest energy in MeV, pair production and annihilation",
+                    "3.2.1.4 Fundamental interactions and exchange particles",
+                    "3.2.1.5 Particle classification: hadrons, leptons, strange particles",
+                    "3.2.1.6 Quarks (u, d, s) and antiquarks, baryon/meson composition",
+                    "3.2.1.7 Conservation laws: charge, baryon number, lepton number, strangeness",
+                    "3.2.2.1 Photoelectric effect: threshold frequency, work function, hf = phi + Ek(max)",
+                    "3.2.2.2 Electron collisions: excitation, ionisation, eV conversion",
+                    "3.2.2.3 Energy levels and line spectra: hf = E1 - E2",
+                    "3.2.2.4 Wave-particle duality: electron diffraction, de Broglie wavelength"
+                  ]
+                },
+                {
+                  "id": "7408_3_waves",
+                  "title": "3.3 Waves",
+                  "subtopics": [
+                    "3.3.1.1 Progressive waves: amplitude, frequency, wavelength, speed, phase",
+                    "3.3.1.2 Longitudinal and transverse waves, polarisation",
+                    "3.3.1.3 Principle of superposition, stationary waves on strings",
+                    "3.3.2.1 Interference, coherence, Young's double slit w = lambda*D/s",
+                    "3.3.2.2 Single slit diffraction, diffraction grating d sin theta = n lambda",
+                    "3.3.2.3 Refraction, Snell's law, total internal reflection, optical fibres"
+                  ]
+                },
+                {
+                  "id": "7408_4_mechanics",
+                  "title": "3.4 Mechanics and Materials",
+                  "subtopics": [
+                    "3.4.1.1 Scalars, vectors, addition, coplanar equilibrium",
+                    "3.4.1.2 Moments, couples, principle of moments, centre of mass",
+                    "3.4.1.3 Linear motion: graphs (s-t, v-t, a-t), SUVAT equations",
+                    "3.4.1.4 Projectile motion in 2D, fluid friction, terminal speed",
+                    "3.4.1.5 Newton's laws of motion, F = ma",
+                    "3.4.1.6 Momentum, impulse F*dt = delta(mv), conservation of momentum",
+                    "3.4.1.7 Work, energy, power P = Fv, efficiency",
+                    "3.4.1.8 Conservation of mechanical energy: Ep = mgh, Ek = 1/2 mv^2",
+                    "3.4.2.1 Density, Hooke's law, stress, strain, elastic strain energy",
+                    "3.4.2.2 Young modulus E = (FL)/(A*delta_L), stress-strain graphs"
+                  ]
+                },
+                {
+                  "id": "7408_5_electricity",
+                  "title": "3.5 Electricity",
+                  "subtopics": [
+                    "3.5.1.1 Current I = delta_Q/delta_t, pd V = W/Q, resistance R = V/I",
+                    "3.5.1.2 I-V characteristics: ohmic conductor, diode, filament lamp",
+                    "3.5.1.3 Resistivity rho = RA/L, temperature effects, superconductivity",
+                    "3.5.1.4 Series and parallel circuits: Kirchhoff's laws, power P = IV",
+                    "3.5.1.5 Potential dividers, sensor circuits (LDR, thermistor)",
+                    "3.5.1.6 EMF and internal resistance: epsilon = I(R + r)"
+                  ]
+                },
+                {
+                  "id": "7408_6_further_mech_thermal",
+                  "title": "3.6 Further Mechanics and Thermal",
+                  "subtopics": [
+                    "3.6.1.1 Circular motion: angular speed, centripetal acceleration and force",
+                    "3.6.1.2 Simple Harmonic Motion (SHM): a = -omega^2 x, velocity equations",
+                    "3.6.1.3 SHM systems: mass-spring, simple pendulum, energy exchange",
+                    "3.6.1.4 Free and forced vibrations, resonance, damping",
+                    "3.6.2.1 Thermal transfer: internal energy, 1st law, Q = mc*delta_theta, latent heat",
+                    "3.6.2.2 Ideal gases: gas laws, absolute zero, pV = nRT = NkT",
+                    "3.6.2.3 Kinetic theory: Brownian motion, derivation of pV = 1/3 N m (c_rms)^2"
+                  ]
+                },
+                {
+                  "id": "7408_7_fields",
+                  "title": "3.7 Fields",
+                  "subtopics": [
+                    "3.7.1 Gravitational vs electrostatic force fields: similarities/differences",
+                    "3.7.2.1 Newton's law of gravitation: F = G m1 m2 / r^2",
+                    "3.7.2.2 Gravitational field strength g = GM/r^2",
+                    "3.7.2.3 Gravitational potential V = -GM/r, equipotentials, g = -dV/dr",
+                    "3.7.2.4 Orbits: Kepler's third law, escape velocity, geostationary orbits",
+                    "3.7.3.1 Coulomb's law: F = (1/(4*pi*epsilon_0)) * (Q1*Q2 / r^2)",
+                    "3.7.3.2 Electric field strength E = F/Q, uniform and radial fields",
+                    "3.7.3.3 Electric potential V = Q/(4*pi*epsilon_0*r)",
+                    "3.7.4.1 Capacitance C = Q/V",
+                    "3.7.4.2 Parallel plate capacitor C = A*epsilon_0*epsilon_r / d",
+                    "3.7.4.3 Energy stored in a capacitor: E = 1/2 QV = 1/2 CV^2",
+                    "3.7.4.4 Capacitor charge/discharge, time constant RC, exponential decay",
+                    "3.7.5.1 Magnetic flux density B, force on wire F = BIl",
+                    "3.7.5.2 Force on moving charge F = BQv, circular trajectory",
+                    "3.7.5.3 Magnetic flux phi = BA, flux linkage N*phi = BAN cos theta",
+                    "3.7.5.4 Electromagnetic induction: Faraday's and Lenz's laws, induced emf",
+                    "3.7.5.5 Alternating currents: rms values, oscilloscope usage",
+                    "3.7.5.6 Transformers: Ns/Np = Vs/Vp, efficiency, high-voltage transmission"
+                  ]
+                },
+                {
+                  "id": "7408_8_nuclear",
+                  "title": "3.8 Nuclear Physics",
+                  "subtopics": [
+                    "3.8.1.1 Rutherford alpha scattering experiment, nuclear model",
+                    "3.8.1.2 Alpha, beta, gamma radiation: properties, absorption, inverse-square",
+                    "3.8.1.3 Radioactive decay law: dN/dt = -lambda*N, half-life T_{1/2} = ln(2)/lambda",
+                    "3.8.1.4 Nuclear instability: N-Z curve, decay modes, metastable Tc-99m",
+                    "3.8.1.5 Nuclear radius: closest approach, electron diffraction, R = R0 A^{1/3}",
+                    "3.8.1.6 Mass and energy equivalence: E = mc^2, binding energy curve",
+                    "3.8.1.7 Induced nuclear fission: thermal neutrons, chain reaction, reactor design",
+                    "3.8.1.8 Nuclear reactor safety: shielding, control rods, waste disposal"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Required Practicals (1–12)",
+              "topics": [
+                {
+                  "id": "7408_practicals",
+                  "title": "Required Practicals",
+                  "subtopics": [
+                    "RP1: Frequency of stationary waves on a string",
+                    "RP2: Interference effects: Young's slit and diffraction grating",
+                    "RP3: Determination of g by free-fall",
+                    "RP4: Determination of Young modulus",
+                    "RP5: Determination of resistivity of a wire",
+                    "RP6: Investigation of emf and internal resistance",
+                    "RP7: Simple harmonic motion: mass-spring and pendulum",
+                    "RP8: Boyle's law and Charles's law for a gas",
+                    "RP9: Charge and discharge of capacitors and RC constant",
+                    "RP10: Force on a wire in magnetic field",
+                    "RP11: Magnetic flux linkage variation with search coil",
+                    "RP12: Inverse-square law for gamma radiation"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "cie_cs",
+          "name": "Computer Science",
+          "full_name": "Cambridge AS & A Level Computer Science (Self-Study)",
+          "spec_code": "9618",
+          "sections": [
+            {
+              "name": "AS Level Theory (Paper 1)",
+              "topics": [
+                {
+                  "id": "9618_1_info_rep",
+                  "title": "1. Information Representation",
+                  "subtopics": [
+                    "1.1 Data Representation: number bases, two's complement, BCD, hex, ASCII, Unicode",
+                    "1.2 Multimedia: bitmaps, vector graphics, sound sampling",
+                    "1.3 Compression: lossy vs lossless, run-length encoding (RLE)"
+                  ]
+                },
+                {
+                  "id": "9618_2_communication",
+                  "title": "2. Communication",
+                  "subtopics": [
+                    "2.1 Networks: LAN, WAN, client-server vs P2P, thin vs thick client",
+                    "2.1 Topologies: bus, star, mesh, hybrid",
+                    "2.1 Cloud computing: public vs private, benefits and risks",
+                    "2.1 Transmission media, hardware (switch, router, NIC, WAP)",
+                    "2.1 Ethernet CSMA/CD, IP addressing (IPv4/IPv6, subnetting), DNS"
+                  ]
+                },
+                {
+                  "id": "9618_3_hardware",
+                  "title": "3. Hardware",
+                  "subtopics": [
+                    "3.1 I/O devices, secondary storage (magnetic, optical, SSD), embedded systems",
+                    "3.1 RAM vs ROM, SRAM vs DRAM, sensors & actuators",
+                    "3.2 Logic Gates: NOT, AND, OR, NAND, NOR, XOR truth tables and circuits"
+                  ]
+                },
+                {
+                  "id": "9618_4_processor",
+                  "title": "4. Processor Fundamentals",
+                  "subtopics": [
+                    "4.1 CPU Architecture: Von Neumann, buses, registers (PC, MAR, MDR, ACC, CIR)",
+                    "4.1 Fetch-Execute cycle, register transfer notation, interrupts",
+                    "4.2 Assembly Language: two-pass assembler, addressing modes, instruction tracing",
+                    "4.3 Bit manipulation: logical/arithmetic shifts, bitwise masks"
+                  ]
+                },
+                {
+                  "id": "9618_5_system_software",
+                  "title": "5. System Software",
+                  "subtopics": [
+                    "5.1 Operating Systems: memory, file, security, process management; DLLs",
+                    "5.2 Translators: assemblers, compilers, interpreters; IDE features"
+                  ]
+                },
+                {
+                  "id": "9618_6_security",
+                  "title": "6. Security, Privacy and Data Integrity",
+                  "subtopics": [
+                    "6.1 Data security: malware threats, firewalls, biometrics, encryption",
+                    "6.2 Data integrity: validation methods and verification"
+                  ]
+                },
+                {
+                  "id": "9618_7_ethics",
+                  "title": "7. Ethics and Ownership",
+                  "subtopics": [
+                    "7.1 Professional ethics, copyright legislation, software licenses, AI impacts"
+                  ]
+                },
+                {
+                  "id": "9618_8_databases",
+                  "title": "8. Databases",
+                  "subtopics": [
+                    "8.1 Relational database concepts: entities, keys, ER diagrams, normalisation (1-3NF)",
+                    "8.2 DBMS functions: data dictionary, query processor, security",
+                    "8.3 SQL DDL: CREATE/ALTER TABLE, keys",
+                    "8.3 SQL DML: SELECT, WHERE, ORDER BY, GROUP BY, JOIN, INSERT, UPDATE, DELETE"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "AS Level Practical (Paper 2)",
+              "topics": [
+                {
+                  "id": "9618_9_algorithms",
+                  "title": "9. Algorithm Design",
+                  "subtopics": [
+                    "9.1 Computational thinking: abstraction, decomposition",
+                    "9.2 Algorithms: pseudocode, flowcharts, identifier tables"
+                  ]
+                },
+                {
+                  "id": "9618_10_data_structures",
+                  "title": "10. Data Types and Structures",
+                  "subtopics": [
+                    "10.1 Data types and record structures",
+                    "10.2 Arrays: 1D and 2D arrays, linear search, bubble sort",
+                    "10.3 File handling: reading and writing text files",
+                    "10.4 Abstract Data Types: stack, queue, linked list implementations"
+                  ]
+                },
+                {
+                  "id": "9618_11_programming",
+                  "title": "11. Programming",
+                  "subtopics": [
+                    "11.1 Programming basics: variables, operators, string functions",
+                    "11.2 Control constructs: IF-THEN-ELSE, CASE, FOR, WHILE, REPEAT",
+                    "11.3 Structured programming: procedures, functions, parameter passing"
+                  ]
+                },
+                {
+                  "id": "9618_12_software_dev",
+                  "title": "12. Software Development",
+                  "subtopics": [
+                    "12.1 Lifecycle models: waterfall, iterative, RAD",
+                    "12.2 Program design: structure charts, state-transition diagrams",
+                    "12.3 Testing: syntax/logic/runtime errors, dry runs, test plans, maintenance"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "A Level Theory (Paper 3)",
+              "topics": [
+                {
+                  "id": "9618_13_adv_data_rep",
+                  "title": "13. Data Representation (Advanced)",
+                  "subtopics": [
+                    "13.1 User-defined types: enumerated, pointer, record, set, classes",
+                    "13.2 File organisation: serial, sequential, random access; hashing",
+                    "13.3 Floating-point: mantissa & exponent, normalisation, rounding errors"
+                  ]
+                },
+                {
+                  "id": "9618_14_adv_comm",
+                  "title": "14. Communication and Internet",
+                  "subtopics": [
+                    "14.1 Protocols: TCP/IP model, HTTP, FTP, SMTP, POP3, IMAP, BitTorrent",
+                    "14.2 Packet switching vs circuit switching, router operations"
+                  ]
+                },
+                {
+                  "id": "9618_15_adv_hardware",
+                  "title": "15. Hardware and Virtual Machines",
+                  "subtopics": [
+                    "15.1 Processors: RISC vs CISC, pipelining, Flynn's taxonomy, VMs",
+                    "15.2 Boolean algebra: adders, flip-flops, De Morgan's laws, Karnaugh maps"
+                  ]
+                },
+                {
+                  "id": "9618_16_adv_sys_software",
+                  "title": "16. System Software (Advanced)",
+                  "subtopics": [
+                    "16.1 OS kernel: scheduling, virtual memory, paging, thrashing",
+                    "16.2 Translation: lexical/syntax analysis, optimisation, BNF, RPN"
+                  ]
+                },
+                {
+                  "id": "9618_17_adv_security",
+                  "title": "17. Security (Advanced)",
+                  "subtopics": [
+                    "17.1 Asymmetric/symmetric cryptography, SSL/TLS handshake, digital certificates"
+                  ]
+                },
+                {
+                  "id": "9618_18_ai",
+                  "title": "18. Artificial Intelligence",
+                  "subtopics": [
+                    "18.1 AI: graph searches (A* and Dijkstra), neural networks, learning models"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "A Level Practical (Paper 4)",
+              "topics": [
+                {
+                  "id": "9618_19_adv_algorithms",
+                  "title": "19. Computational Thinking (Advanced)",
+                  "subtopics": [
+                    "19.1 Algorithms: search & sorting, Big-O complexity",
+                    "19.1 ADT algorithms: tree/graph traversal, linked list insertion/deletion",
+                    "19.2 Recursion: base cases, stack frames, unwinding"
+                  ]
+                },
+                {
+                  "id": "9618_20_further_prog",
+                  "title": "20. Further Programming",
+                  "subtopics": [
+                    "20.1 Paradigms: OOP (classes, encapsulation, inheritance, polymorphism)",
+                    "20.2 File processing and structured exception handling in Python"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    };
+
+    const STORAGE_KEY = 'radley_academic_tracker_minimal_v2';
+    const SAT_TARGET_DATE = new Date('2027-03-13T08:00:00');
+    const RADLEY_TARGET_DATE = new Date('2027-07-03T18:00:00');
+    const TIMELINE_START_DATE = new Date('2026-09-01T00:00:00');
+
+    function getInitialBaselineState() {
+      const completedSubtopics = {};
+
+      function markTopicAll(subjectId, topicId, count) {
+        for (let i = 0; i < count; i++) {
+          completedSubtopics[`${subjectId}::${topicId}::${i}`] = true;
+        }
+      }
+
+      // Edexcel Single Maths: mark all in 9ma0_1, 2, 4, 5, 7, 8
+      markTopicAll('edexcel_single_maths', '9ma0_1_proof', 4);
+      markTopicAll('edexcel_single_maths', '9ma0_2_algebra', 11);
+      markTopicAll('edexcel_single_maths', '9ma0_4_sequences', 6);
+      markTopicAll('edexcel_single_maths', '9ma0_5_trig', 11);
+      markTopicAll('edexcel_single_maths', '9ma0_7_diff', 6);
+      markTopicAll('edexcel_single_maths', '9ma0_8_int', 8);
+
+      // Edexcel Further Maths: first subtopic of complex numbers
+      completedSubtopics['edexcel_further_maths::9fm0_cp_2_complex::0'] = true;
+
+      // AQA Physics: measurements
+      markTopicAll('aqa_physics', '7408_1_measurements', 5);
+
+      // CIE CS: Paper 1 (1 & 2) and Paper 2 (10, 11, 12)
+      markTopicAll('cie_cs', '9618_1_info_rep', 3);
+      markTopicAll('cie_cs', '9618_2_communication', 5);
+      markTopicAll('cie_cs', '9618_10_data_structures', 4);
+      markTopicAll('cie_cs', '9618_11_programming', 3);
+      markTopicAll('cie_cs', '9618_12_software_dev', 3);
+
+      const satPracticeTests = [
+        { id: 'sat_0', name: 'Baseline', date: '2026-09-01', math: 650, rw: 650, notes: 'Starting diagnostic' },
+        { id: 'sat_1', name: 'Practice Test 1', date: '2026-10-15', math: 710, rw: 670, notes: 'Reviewed punctuation boundaries' },
+        { id: 'sat_2', name: 'Practice Test 2', date: '2026-11-05', math: 750, rw: 690, notes: 'Used Desmos regression for systems' }
+      ];
+
+      const satChecklist = {
+        'desmos_regression': true,
+        'desmos_roots': true,
+        'desmos_sliders': true,
+        'grammar_fanboys': true,
+        'grammar_colons': false,
+        'grammar_dashes': false,
+        'transitions_contrast': true,
+        'inference_grounding': false
+      };
+
+      return {
+        completedSubtopics,
+        satPracticeTests,
+        satChecklist,
+        currentPhase: 'presat',
+        activeSubjectId: 'edexcel_single_maths',
+        collapsedTopics: {}
+      };
+    }
+
+    let state = loadState();
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('repton_academic_tracker_minimal_v2') || localStorage.getItem('repton_academic_velocity_state_v1');
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && parsed.completedSubtopics) {
+            return parsed;
+          }
+        }
+      } catch (e) {
+        console.warn('Error reading stored state:', e);
+      }
+      const baseline = getInitialBaselineState();
+      saveState(baseline);
+      return baseline;
+    }
+
+    function saveState(s = state) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
+      } catch (e) {
+        console.error('Failed to save state:', e);
+      }
+    }
+
+    function showToast(msg) {
+      const c = document.getElementById('toast-container');
+      const el = document.createElement('div');
+      el.className = 'px-3 py-1.5 rounded bg-zinc-800 border border-zinc-700 text-xs text-zinc-200 shadow transition-opacity duration-200';
+      el.textContent = msg;
+      c.appendChild(el);
+      setTimeout(() => {
+        el.style.opacity = '0';
+        setTimeout(() => el.remove(), 200);
+      }, 2500);
+    }
+
+    // Live Countdowns
+    function updateTimers() {
+      const now = new Date();
+
+      function formatCountdown(target) {
+        const diff = target - now;
+        if (diff <= 0) return '0d 0h';
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        return `${d}d ${h}h`;
+      }
+
+      document.getElementById('sat-countdown').textContent = formatCountdown(SAT_TARGET_DATE);
+      const radleyEl = document.getElementById('radley-countdown') || document.getElementById('repton-countdown');
+      if (radleyEl) radleyEl.textContent = formatCountdown(RADLEY_TARGET_DATE);
+    }
+    setInterval(updateTimers, 60000);
+    updateTimers();
+
+    // Stats Computation
+    function getStats() {
+      let total = 0;
+      let completed = 0;
+      const subjects = {};
+
+      SYLLABUS_DATA.subjects.forEach(sub => {
+        let sTotal = 0;
+        let sCompleted = 0;
+        const sections = [];
+
+        sub.sections.forEach(sec => {
+          let secTotal = 0;
+          let secCompleted = 0;
+
+          sec.topics.forEach(top => {
+            const count = top.subtopics.length;
+            sTotal += count;
+            secTotal += count;
+            total += count;
+
+            for (let i = 0; i < count; i++) {
+              if (state.completedSubtopics[`${sub.id}::${top.id}::${i}`]) {
+                sCompleted++;
+                secCompleted++;
+                completed++;
+              }
+            }
+          });
+
+          sections.push({
+            name: sec.name,
+            total: secTotal,
+            completed: secCompleted,
+            pct: secTotal > 0 ? (secCompleted / secTotal) * 100 : 0
+          });
+        });
+
+        subjects[sub.id] = {
+          total: sTotal,
+          completed: sCompleted,
+          pct: sTotal > 0 ? (sCompleted / sTotal) * 100 : 0,
+          sections
+        };
+      });
+
+      const pct = total > 0 ? (completed / total) * 100 : 0;
+      return { total, completed, pct, subjects };
+    }
+
+    function updatePaceHeader(stats) {
+      const now = new Date();
+      const totalSpan = RADLEY_TARGET_DATE - TIMELINE_START_DATE;
+      const elapsed = Math.max(0, now - TIMELINE_START_DATE);
+      const expectedLinearPct = Math.min(100, (elapsed / totalSpan) * 100);
+      const delta = stats.pct - expectedLinearPct;
+
+      document.getElementById('global-subtopics-ratio').textContent = `${stats.completed} / ${stats.total}`;
+      document.getElementById('global-percentage-text').textContent = `(${stats.pct.toFixed(1)}%)`;
+      document.getElementById('global-progress-bar').style.width = `${stats.pct}%`;
+
+      const summaryEl = document.getElementById('pace-summary-text');
+      if (delta >= 1) {
+        summaryEl.textContent = `+${delta.toFixed(1)}% ahead`;
+        summaryEl.className = 'text-sm font-mono font-medium text-emerald-400 mt-0.5';
+      } else if (delta <= -1) {
+        summaryEl.textContent = `${delta.toFixed(1)}% behind`;
+        summaryEl.className = 'text-sm font-mono font-medium text-amber-400 mt-0.5';
+      } else {
+        summaryEl.textContent = 'On pace';
+        summaryEl.className = 'text-sm font-mono font-medium text-zinc-300 mt-0.5';
+      }
+    }
+
+    // SAT Chart
+    let satChart = null;
+    function renderSatChart() {
+      const ctx = document.getElementById('sat-trajectory-chart').getContext('2d');
+      const sorted = [...state.satPracticeTests].sort((a, b) => new Date(a.date) - new Date(b.date));
+
+      const labels = sorted.map(t => t.name.replace('Practice Test ', 'Test '));
+      const totals = sorted.map(t => Number(t.math) + Number(t.rw));
+      const target = sorted.map(() => 1550);
+
+      if (satChart) {
+        satChart.data.labels = labels;
+        satChart.data.datasets[0].data = totals;
+        satChart.data.datasets[1].data = target;
+        satChart.update();
+        return;
+      }
+
+      satChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Total Score',
+              data: totals,
+              borderColor: '#e4e4e7',
+              backgroundColor: 'transparent',
+              borderWidth: 2,
+              tension: 0.2,
+              pointBackgroundColor: '#e4e4e7',
+              pointRadius: 4
+            },
+            {
+              label: '1550 Target',
+              data: target,
+              borderColor: '#71717a',
+              borderWidth: 1.5,
+              borderDash: [4, 4],
+              pointRadius: 0
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true,
+              position: 'top',
+              align: 'end',
+              labels: {
+                color: '#71717a',
+                boxWidth: 10,
+                font: { size: 10, family: 'monospace' }
+              }
+            },
+            tooltip: {
+              backgroundColor: '#18181b',
+              titleColor: '#f4f4f5',
+              bodyColor: '#a1a1aa',
+              borderColor: '#27272a',
+              borderWidth: 1,
+              padding: 8,
+              displayColors: false
+            }
+          },
+          scales: {
+            x: {
+              grid: { display: false },
+              ticks: { color: '#71717a', font: { size: 10, family: 'monospace' } }
+            },
+            y: {
+              min: 1200,
+              max: 1600,
+              grid: { color: '#18181b' },
+              ticks: { color: '#71717a', stepSize: 100, font: { size: 10, family: 'monospace' } }
+            }
+          }
+        }
+      });
+    }
+
+    function renderSatTable() {
+      const tbody = document.getElementById('sat-tests-tbody');
+      tbody.innerHTML = '';
+      const sorted = [...state.satPracticeTests].sort((a, b) => new Date(a.date) - new Date(b.date));
+
+      sorted.forEach(test => {
+        const total = Number(test.math) + Number(test.rw);
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-zinc-800/30 transition-colors cursor-pointer';
+        tr.innerHTML = `
+          <td class="py-2 px-2 font-medium text-zinc-200">${test.name}</td>
+          <td class="py-2 px-2 text-zinc-500 font-mono">${test.date}</td>
+          <td class="py-2 px-2 font-mono text-zinc-300">${test.math}</td>
+          <td class="py-2 px-2 font-mono text-zinc-300">${test.rw}</td>
+          <td class="py-2 px-2 font-mono font-medium ${total >= 1550 ? 'text-emerald-400' : 'text-zinc-100'}">${total}</td>
+          <td class="py-2 px-2 text-zinc-500 truncate max-w-xs">${test.notes || '—'}</td>
+          <td class="py-2 px-2 text-right">
+            <button data-del-test="${test.id}" class="text-zinc-600 hover:text-red-400 px-1 py-0.5 text-[11px]">✕</button>
+          </td>
+        `;
+
+        tr.addEventListener('click', (e) => {
+          if (e.target.closest('[data-del-test]')) return;
+          openSatModal(test);
+        });
+
+        const delBtn = tr.querySelector('[data-del-test]');
+        delBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          state.satPracticeTests = state.satPracticeTests.filter(t => t.id !== test.id);
+          saveState();
+          renderSatTable();
+          renderSatChart();
+          showToast('Test removed');
+        });
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    const SAT_CHECKPOINTS = [
+      { id: 'desmos_regression', text: 'Desmos: regression commands (y1 ~ a(x1-h)^2 + k)' },
+      { id: 'desmos_roots', text: 'Desmos: root finding & system intersections' },
+      { id: 'desmos_sliders', text: 'Desmos: parameter sliders for constant analysis' },
+      { id: 'grammar_fanboys', text: 'Grammar: period = semicolon = comma + FANBOYS' },
+      { id: 'grammar_colons', text: 'Grammar: colon must follow full independent clause' },
+      { id: 'grammar_dashes', text: 'Grammar: dash pairs for nonessential interruptions' },
+      { id: 'transitions_contrast', text: 'R&W: transition classifications (contrast / addition / cause)' },
+      { id: 'inference_grounding', text: 'R&W: strictly eliminate unsupported extreme words (all/never)' }
+    ];
+
+    function renderSatChecklist() {
+      const container = document.getElementById('sat-checklist-container');
+      container.innerHTML = '';
+      let done = 0;
+
+      SAT_CHECKPOINTS.forEach(item => {
+        const isChecked = !!state.satChecklist[item.id];
+        if (isChecked) done++;
+
+        const label = document.createElement('label');
+        label.className = 'flex items-start gap-2 py-1 px-1.5 rounded hover:bg-zinc-800/40 cursor-pointer select-none';
+        label.innerHTML = `
+          <input type="checkbox" data-sat-id="${item.id}" ${isChecked ? 'checked' : ''} class="mt-0.5 rounded border-zinc-700 bg-zinc-900" />
+          <span class="${isChecked ? 'line-through text-zinc-500' : 'text-zinc-300'}">${item.text}</span>
+        `;
+
+        label.querySelector('input').addEventListener('change', (e) => {
+          state.satChecklist[item.id] = e.target.checked;
+          saveState();
+          renderSatChecklist();
+        });
+
+        container.appendChild(label);
+      });
+
+      document.getElementById('sat-checklist-counter').textContent = `${done}/${SAT_CHECKPOINTS.length}`;
+    }
+
+    // Modal
+    const modal = document.getElementById('sat-score-modal');
+    function openSatModal(existing = null) {
+      const title = document.getElementById('sat-modal-title');
+      const testId = document.getElementById('modal-test-id');
+      const name = document.getElementById('modal-test-name');
+      const date = document.getElementById('modal-test-date');
+      const math = document.getElementById('modal-test-math');
+      const rw = document.getElementById('modal-test-rw');
+      const notes = document.getElementById('modal-test-notes');
+      const total = document.getElementById('modal-calculated-total');
+
+      function syncTotal() {
+        const m = parseInt(math.value) || 0;
+        const r = parseInt(rw.value) || 0;
+        total.textContent = (m || r) ? (m + r) : '--';
+      }
+      math.oninput = syncTotal;
+      rw.oninput = syncTotal;
+
+      if (existing) {
+        title.textContent = 'Edit Score';
+        testId.value = existing.id;
+        name.value = existing.name;
+        date.value = existing.date;
+        math.value = existing.math;
+        rw.value = existing.rw;
+        notes.value = existing.notes || '';
+      } else {
+        title.textContent = 'Log Test';
+        testId.value = 'sat_' + Date.now();
+        name.value = `Practice Test ${state.satPracticeTests.length + 1}`;
+        date.value = new Date().toISOString().split('T')[0];
+        math.value = 750;
+        rw.value = 700;
+        notes.value = '';
+      }
+      syncTotal();
+      modal.classList.remove('hidden');
+      requestAnimationFrame(() => modal.classList.remove('opacity-0'));
+    }
+
+    function closeSatModal() {
+      modal.classList.add('opacity-0');
+      setTimeout(() => modal.classList.add('hidden'), 150);
+    }
+
+    document.getElementById('add-sat-score-btn').addEventListener('click', () => openSatModal());
+    document.getElementById('close-sat-modal').addEventListener('click', closeSatModal);
+    document.getElementById('cancel-sat-modal-btn').addEventListener('click', closeSatModal);
+
+    document.getElementById('sat-score-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id = document.getElementById('modal-test-id').value;
+      const name = document.getElementById('modal-test-name').value.trim();
+      const date = document.getElementById('modal-test-date').value;
+      const math = parseInt(document.getElementById('modal-test-math').value, 10);
+      const rw = parseInt(document.getElementById('modal-test-rw').value, 10);
+      const notes = document.getElementById('modal-test-notes').value.trim();
+
+      const idx = state.satPracticeTests.findIndex(t => t.id === id);
+      const entry = { id, name, date, math, rw, notes };
+      if (idx >= 0) {
+        state.satPracticeTests[idx] = entry;
+      } else {
+        state.satPracticeTests.push(entry);
+      }
+      saveState();
+      closeSatModal();
+      renderSatTable();
+      renderSatChart();
+      showToast('Score saved');
+    });
+
+    // Schedule
+    const SCHEDULES = {
+      presat: [
+        { day: 'Mon', morning: 'Pure Maths (1.5h)', midday: 'Physics (1.5h)', afternoon: 'SAT (1.3h)', total: '4.3h' },
+        { day: 'Tue', morning: 'Further Maths (1.5h)', midday: 'Comp Sci (1.3h)', afternoon: 'SAT (1.3h)', total: '4.1h' },
+        { day: 'Wed', morning: 'Review', midday: 'Physics (1.5h)', afternoon: 'Comp Sci (1.4h)', total: '2.9h' },
+        { day: 'Thu', morning: 'Further Maths (1.5h)', midday: 'Comp Sci (1.3h)', afternoon: 'SAT (1.4h)', total: '4.2h' },
+        { day: 'Fri', morning: 'Further Maths (1.5h)', midday: 'Physics (1.5h)', afternoon: 'Weekly Review (1.5h)', total: '4.5h' }
+      ],
+      postsat: [
+        { day: 'Mon', morning: 'Pure Maths (1.5h)', midday: 'Physics (1.5h)', afternoon: 'Stats & Mech (1.3h)', total: '4.3h' },
+        { day: 'Tue', morning: 'Further Maths (1.5h)', midday: 'Comp Sci (1.3h)', afternoon: 'Stats & Mech (1.3h)', total: '4.1h' },
+        { day: 'Wed', morning: 'Stats & Mech (1.0h)', midday: 'Physics (1.5h)', afternoon: 'Comp Sci (1.4h)', total: '3.9h' },
+        { day: 'Thu', morning: 'Further Maths (1.5h)', midday: 'Comp Sci (1.3h)', afternoon: 'Stats & Mech (1.4h)', total: '4.2h' },
+        { day: 'Fri', morning: 'Further Maths (1.5h)', midday: 'Physics (1.5h)', afternoon: 'Applied Practice (0.5h)', total: '3.5h' }
+      ]
+    };
+
+    function renderSchedule() {
+      const isPreSat = state.currentPhase === 'presat';
+      const list = SCHEDULES[state.currentPhase] || SCHEDULES.presat;
+      const tbody = document.getElementById('schedule-tbody');
+      tbody.innerHTML = '';
+
+      const btnPre = document.getElementById('phase-presat-btn');
+      const btnPost = document.getElementById('phase-postsat-btn');
+      const sub = document.getElementById('schedule-subtext');
+
+      if (isPreSat) {
+        btnPre.className = 'px-2.5 py-1 rounded text-xs font-medium text-zinc-100 bg-zinc-800 transition-colors';
+        btnPost.className = 'px-2.5 py-1 rounded text-xs font-medium text-zinc-400 hover:text-zinc-200 transition-colors';
+        sub.textContent = 'Pre-SAT focus: 4h SAT prep / week. Reallocates to Stats & Mechanics after March 13.';
+      } else {
+        btnPost.className = 'px-2.5 py-1 rounded text-xs font-medium text-zinc-100 bg-zinc-800 transition-colors';
+        btnPre.className = 'px-2.5 py-1 rounded text-xs font-medium text-zinc-400 hover:text-zinc-200 transition-colors';
+        sub.textContent = 'Post-March 13 shift: 4h SAT block shifted directly into Single Maths (Statistics & Mechanics).';
+      }
+
+      list.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-zinc-800/20';
+        tr.innerHTML = `
+          <td class="py-2 px-2.5 font-medium text-zinc-200">${row.day}</td>
+          <td class="py-2 px-2.5 text-zinc-300">${row.morning}</td>
+          <td class="py-2 px-2.5 text-zinc-300">${row.midday}</td>
+          <td class="py-2 px-2.5 text-zinc-300">${row.afternoon}</td>
+          <td class="py-2 px-2.5 text-right font-mono text-zinc-400">${row.total}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    document.getElementById('phase-presat-btn').addEventListener('click', () => {
+      state.currentPhase = 'presat';
+      saveState();
+      renderSchedule();
+    });
+    document.getElementById('phase-postsat-btn').addEventListener('click', () => {
+      state.currentPhase = 'postsat';
+      saveState();
+      renderSchedule();
+    });
+
+    // Syllabus Tabs & Accordion
+    function renderTabs() {
+      const container = document.getElementById('subject-tabs-container');
+      container.innerHTML = '';
+      const stats = getStats();
+
+      SYLLABUS_DATA.subjects.forEach(sub => {
+        const isActive = sub.id === state.activeSubjectId;
+        const subStat = stats.subjects[sub.id];
+        const btn = document.createElement('button');
+        btn.className = `px-3 py-2 border-b-2 font-medium transition-colors whitespace-nowrap flex items-center gap-1.5 ${isActive ? 'border-zinc-300 text-zinc-100' : 'border-transparent text-zinc-500 hover:text-zinc-300'}`;
+        btn.innerHTML = `
+          <span>${sub.name}</span>
+          <span class="font-mono text-[11px] text-zinc-500">${subStat.pct.toFixed(0)}%</span>
+        `;
+        btn.addEventListener('click', () => {
+          state.activeSubjectId = sub.id;
+          saveState();
+          renderTabs();
+          renderSyllabus();
+        });
+        container.appendChild(btn);
+      });
+    }
+
+    function renderSyllabus() {
+      const sub = SYLLABUS_DATA.subjects.find(s => s.id === state.activeSubjectId) || SYLLABUS_DATA.subjects[0];
+      const stats = getStats();
+      const subStat = stats.subjects[sub.id];
+
+      // Status Bar
+      document.getElementById('subject-status-left').innerHTML = `
+        <span class="font-medium text-zinc-200">${sub.full_name}</span>
+        <span class="font-mono text-zinc-500 text-[11px]">${sub.spec_code}</span>
+      `;
+      document.getElementById('subject-status-right').textContent = `${subStat.completed} / ${subStat.total} (${subStat.pct.toFixed(1)}%)`;
+
+      const search = (document.getElementById('subtopic-search').value || '').toLowerCase().trim();
+      const filter = document.getElementById('subtopic-filter-status').value;
+
+      const container = document.getElementById('curriculum-topics-container');
+      container.innerHTML = '';
+
+      sub.sections.forEach(section => {
+        const secHeader = document.createElement('div');
+        secHeader.className = 'text-[11px] font-semibold text-zinc-500 uppercase tracking-wider pt-3 pb-1 border-b border-zinc-850';
+        secHeader.textContent = section.name;
+        container.appendChild(secHeader);
+
+        section.topics.forEach(topic => {
+          const totalCount = topic.subtopics.length;
+          let compCount = 0;
+          for (let i = 0; i < totalCount; i++) {
+            if (state.completedSubtopics[`${sub.id}::${topic.id}::${i}`]) compCount++;
+          }
+
+          const filtered = [];
+          topic.subtopics.forEach((text, i) => {
+            const isDone = !!state.completedSubtopics[`${sub.id}::${topic.id}::${i}`];
+            const matchSearch = !search || text.toLowerCase().includes(search) || topic.title.toLowerCase().includes(search);
+            const matchFilter = (filter === 'all') || (filter === 'completed' && isDone) || (filter === 'incomplete' && !isDone);
+            if (matchSearch && matchFilter) {
+              filtered.push({ i, text, isDone });
+            }
+          });
+
+          if (filtered.length === 0 && (search || filter !== 'all')) return;
+
+          const isCollapsed = !!state.collapsedTopics[`${sub.id}::${topic.id}`];
+          const isAll = compCount === totalCount;
+
+          const card = document.createElement('div');
+          card.className = 'border border-zinc-850 rounded bg-base-900/40 text-xs';
+          card.innerHTML = `
+            <div class="topic-row flex items-center justify-between py-2 px-3 cursor-pointer hover:bg-zinc-800/30 select-none">
+              <div class="flex items-center gap-2">
+                <span class="text-zinc-500 text-[10px] w-3">${isCollapsed ? '›' : '⌄'}</span>
+                <span class="font-medium ${isAll ? 'text-zinc-400' : 'text-zinc-200'}">${topic.title}</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="font-mono text-zinc-500 text-[11px]">${compCount}/${totalCount}</span>
+                <button data-quick-topic="${topic.id}" class="text-zinc-500 hover:text-zinc-300 text-[11px] px-1.5 py-0.5 rounded border border-zinc-800">
+                  ${isAll ? 'Clear' : 'All'}
+                </button>
+              </div>
+            </div>
+            <div class="topic-subtopics px-3 pb-2 pt-1 space-y-1 ${isCollapsed ? 'hidden' : ''}">
+              ${filtered.map(item => `
+                <label class="flex items-start gap-2.5 py-1 px-1 rounded hover:bg-zinc-800/40 cursor-pointer">
+                  <input type="checkbox" data-key="${sub.id}::${topic.id}::${item.i}" ${item.isDone ? 'checked' : ''} class="mt-0.5 rounded border-zinc-700 bg-zinc-950" />
+                  <span class="${item.isDone ? 'line-through text-zinc-500' : 'text-zinc-300'} leading-relaxed">${item.text}</span>
+                </label>
+              `).join('')}
+            </div>
+          `;
+
+          card.querySelector('.topic-row').addEventListener('click', (e) => {
+            if (e.target.closest('[data-quick-topic]')) return;
+            const k = `${sub.id}::${topic.id}`;
+            state.collapsedTopics[k] = !state.collapsedTopics[k];
+            saveState();
+            renderSyllabus();
+          });
+
+          card.querySelector('[data-quick-topic]').addEventListener('click', (e) => {
+            e.stopPropagation();
+            const shouldCheck = !isAll;
+            for (let i = 0; i < totalCount; i++) {
+              const k = `${sub.id}::${topic.id}::${i}`;
+              if (shouldCheck) state.completedSubtopics[k] = true;
+              else delete state.completedSubtopics[k];
+            }
+            saveState();
+            refresh();
+          });
+
+          container.appendChild(card);
+        });
+      });
+
+      container.querySelectorAll('input[data-key]').forEach(inp => {
+        inp.addEventListener('change', (e) => {
+          const k = e.target.getAttribute('data-key');
+          if (e.target.checked) state.completedSubtopics[k] = true;
+          else delete state.completedSubtopics[k];
+          saveState();
+          refresh();
+        });
+      });
+    }
+
+    // Toggle all topics in current subject
+    let allCollapsed = false;
+    document.getElementById('toggle-all-topics-btn').addEventListener('click', () => {
+      allCollapsed = !allCollapsed;
+      const sub = SYLLABUS_DATA.subjects.find(s => s.id === state.activeSubjectId);
+      if (sub) {
+        sub.sections.forEach(sec => {
+          sec.topics.forEach(top => {
+            state.collapsedTopics[`${sub.id}::${top.id}`] = allCollapsed;
+          });
+        });
+      }
+      document.getElementById('toggle-all-topics-btn').textContent = allCollapsed ? 'Expand All' : 'Collapse All';
+      saveState();
+      renderSyllabus();
+    });
+
+    document.getElementById('subtopic-search').addEventListener('input', () => renderSyllabus());
+    document.getElementById('subtopic-filter-status').addEventListener('change', () => renderSyllabus());
+
+    // Export, Import & Download App File
+    const downloadHtmlBtn = document.getElementById('download-html-btn');
+    if (downloadHtmlBtn) {
+      downloadHtmlBtn.addEventListener('click', () => {
+        fetch('/index.html')
+          .then(r => r.text())
+          .then(html => {
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'radley-alevels-sat-plan.html';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+            showToast('Downloaded standalone HTML file');
+          })
+          .catch(() => {
+            const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'radley-alevels-sat-plan.html';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+            showToast('Downloaded standalone HTML file');
+          });
+      });
+    }
+
+    document.getElementById('export-json-btn').addEventListener('click', () => {
+      const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(state, null, 2));
+      const a = document.createElement('a');
+      a.setAttribute('href', dataStr);
+      a.setAttribute('download', `radley-plan-data-${new Date().toISOString().split('T')[0]}.json`);
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      showToast('Exported backup data');
+    });
+
+    const fileInput = document.getElementById('import-json-file');
+    document.getElementById('import-json-btn').addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        try {
+          const parsed = JSON.parse(evt.target.result);
+          if (parsed && parsed.completedSubtopics) {
+            state = parsed;
+            saveState();
+            refresh();
+            showToast('Backup restored');
+          } else {
+            alert('Invalid backup JSON format');
+          }
+        } catch (err) {
+          alert('Failed to parse file: ' + err.message);
+        }
+      };
+      reader.readAsText(file);
+      fileInput.value = '';
+    });
+
+    // Reset Modal
+    const resetModal = document.getElementById('reset-modal');
+    document.getElementById('reset-baseline-btn').addEventListener('click', () => {
+      resetModal.classList.remove('hidden');
+      requestAnimationFrame(() => resetModal.classList.remove('opacity-0'));
+    });
+    document.getElementById('cancel-reset-btn').addEventListener('click', () => {
+      resetModal.classList.add('opacity-0');
+      setTimeout(() => resetModal.classList.add('hidden'), 150);
+    });
+    document.getElementById('confirm-reset-btn').addEventListener('click', () => {
+      state = getInitialBaselineState();
+      saveState();
+      resetModal.classList.add('opacity-0');
+      setTimeout(() => resetModal.classList.add('hidden'), 150);
+      refresh();
+      showToast('Baseline reset');
+    });
+
+    function refresh() {
+      const stats = getStats();
+      updatePaceHeader(stats);
+      renderTabs();
+      renderSyllabus();
+      renderSatTable();
+      renderSatChecklist();
+      renderSatChart();
+      renderSchedule();
+    }
+
+    window.addEventListener('DOMContentLoaded', refresh);
+  </script>
+</body>
+</html>

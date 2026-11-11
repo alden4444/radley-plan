@@ -1,0 +1,713 @@
+{
+  "subjects": [
+    {
+      "id": "edexcel_single_maths",
+      "name": "Edexcel A-Level Mathematics",
+      "spec_code": "9MA0",
+      "sections": [
+        {
+          "name": "Pure Mathematics",
+          "topics": [
+            {
+              "id": "9ma0_1_proof",
+              "title": "1. Proof",
+              "subtopics": [
+                "1.1 Proof by deduction",
+                "1.1 Proof by exhaustion",
+                "1.1 Disproof by counter-example",
+                "1.1 Proof by contradiction (including irrationality of sqrt(2) and infinity of primes)"
+              ]
+            },
+            {
+              "id": "9ma0_2_algebra",
+              "title": "2. Algebra and Functions",
+              "subtopics": [
+                "2.1 Laws of indices for all rational exponents",
+                "2.2 Surds and rationalising the denominator",
+                "2.3 Quadratic functions, graphs, discriminant, completing the square, quadratic equations",
+                "2.4 Simultaneous equations (linear and quadratic) by elimination and substitution",
+                "2.5 Linear and quadratic inequalities (single variable), set notation and graphical regions",
+                "2.6 Polynomial manipulation, factor theorem, simplifying rational expressions",
+                "2.7 Graphs of functions (cubics, quartics, modulus |ax+b|, reciprocal, asymptotes)",
+                "2.8 Composite and inverse functions, domains and ranges",
+                "2.9 Graph transformations (translations, stretches, reflections, y=|f(x)|, y=f(|x|))",
+                "2.10 Partial fractions (linear and squared linear denominators)",
+                "2.11 Modelling with functions, limitations and refinements"
+              ]
+            },
+            {
+              "id": "9ma0_3_coord_geom",
+              "title": "3. Coordinate Geometry in the (x, y) Plane",
+              "subtopics": [
+                "3.1 Straight lines: y - y1 = m(x - x1), ax + by + c = 0, parallel and perpendicular conditions",
+                "3.2 Coordinate geometry of the circle: (x - a)^2 + (y - b)^2 = r^2, tangent/chord properties",
+                "3.3 Parametric equations of curves and conversion to/from Cartesian form",
+                "3.4 Parametric modelling in context"
+              ]
+            },
+            {
+              "id": "9ma0_4_sequences",
+              "title": "4. Sequences and Series",
+              "subtopics": [
+                "4.1 Binomial expansion of (a + bx)^n for positive integer n and general rational n (|bx/a| < 1)",
+                "4.2 Sequences: nth term, recurrence relations x_{n+1} = f(x_n), increasing, decreasing, periodic",
+                "4.3 Sigma notation for series",
+                "4.4 Arithmetic sequences and series: nth term, sum formula derivation",
+                "4.5 Geometric sequences and series: nth term, sum formula, sum to infinity (|r| < 1)",
+                "4.6 Sequences and series modelling in financial and natural contexts"
+              ]
+            },
+            {
+              "id": "9ma0_5_trig",
+              "title": "5. Trigonometry",
+              "subtopics": [
+                "5.1 Sine, cosine, tangent definitions, sine rule, cosine rule, area = 1/2 ab sin C",
+                "5.1 Radian measure, arc length (s = r theta), sector area (A = 1/2 r^2 theta)",
+                "5.2 Small angle approximations: sin theta ~ theta, cos theta ~ 1 - theta^2/2, tan theta ~ theta",
+                "5.3 Exact trig values, graphs, symmetries and periodicity",
+                "5.4 Reciprocal trig functions: sec, cosec, cot; inverse trig functions: arcsin, arccos, arctan",
+                "5.5 Pythagorean identities: tan = sin/cos, sin^2 + cos^2 = 1, sec^2 = 1 + tan^2, cosec^2 = 1 + cot^2",
+                "5.6 Addition and double angle formulae: sin(A +/- B), cos(A +/- B), tan(A +/- B)",
+                "5.7 Harmonic form: a cos theta + b sin theta = R cos(theta +/- alpha) or R sin(theta +/- alpha)",
+                "5.8 Solving trigonometric equations in given intervals",
+                "5.9 Trigonometric proofs and identities",
+                "5.10 Trigonometric modelling in context"
+              ]
+            },
+            {
+              "id": "9ma0_6_exp_log",
+              "title": "6. Exponentials and Logarithms",
+              "subtopics": [
+                "6.1 Function a^x and its graph (a > 0)",
+                "6.2 Natural exponential e^x, gradient property d/dx(e^{kx}) = k e^{kx}",
+                "6.3 Logarithm definition log_a(x), natural logarithm ln(x) as inverse of e^x",
+                "6.4 Laws of logarithms: log(xy) = log x + log y, log(x/y) = log x - log y, log(x^k) = k log x",
+                "6.5 Solving exponential equations a^x = b",
+                "6.6 Linearising non-linear laws: y = ax^n and y = kb^x using log graphs",
+                "6.7 Exponential growth and decay modelling, limitations and refinements"
+              ]
+            },
+            {
+              "id": "9ma0_7_diff",
+              "title": "7. Differentiation",
+              "subtopics": [
+                "7.1 Derivative as gradient of tangent, limit of chord, differentiation from first principles",
+                "7.2 Differentiating x^n, e^{kx}, a^{kx}, sin kx, cos kx, tan kx, ln x",
+                "7.3 Gradients, tangents, normals, maxima/minima, stationary points, points of inflection, concavity",
+                "7.4 Product rule, quotient rule, and chain rule; connected rates of change",
+                "7.5 Implicit differentiation and parametric differentiation",
+                "7.6 Setting up differential equations in pure maths and context"
+              ]
+            },
+            {
+              "id": "9ma0_8_int",
+              "title": "8. Integration",
+              "subtopics": [
+                "8.1 Fundamental Theorem of Calculus, indefinite integrals",
+                "8.2 Standard integration: x^n, e^{kx}, 1/x, sin kx, cos kx, sec^2 kx",
+                "8.3 Definite integrals: area under curve, area between two curves, parametric curves",
+                "8.4 Integration as the limit of a Riemann sum",
+                "8.5 Integration by substitution and integration by parts",
+                "8.6 Integration using partial fractions",
+                "8.7 First order separable differential equations: general and particular solutions",
+                "8.8 Differential equation interpretation and modelling in kinematics/context"
+              ]
+            },
+            {
+              "id": "9ma0_9_numerical",
+              "title": "9. Numerical Methods",
+              "subtopics": [
+                "9.1 Root location by sign change, conditions for failure",
+                "9.2 Fixed point iteration x_{n+1} = f(x_n), cobweb and staircase diagrams",
+                "9.3 Newton-Raphson method and failure modes",
+                "9.4 Numerical integration using the trapezium rule, error bounds (over/under estimates)",
+                "9.5 Numerical methods in context"
+              ]
+            },
+            {
+              "id": "9ma0_10_vectors",
+              "title": "10. Vectors",
+              "subtopics": [
+                "10.1 2D and 3D vectors: column notation and i, j, k unit vectors",
+                "10.2 Magnitude, direction, unit vectors",
+                "10.3 Vector addition, scalar multiplication, geometric interpretation",
+                "10.4 Position vectors, distance between two points in 3D: d^2 = dx^2 + dy^2 + dz^2",
+                "10.5 Geometric problem solving and kinematics/forces with vectors"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Statistics",
+          "topics": [
+            {
+              "id": "9ma0_s1_sampling",
+              "title": "1. Statistical Sampling",
+              "subtopics": [
+                "1.1 Population, sample, census advantages/disadvantages",
+                "1.1 Simple random, stratified, systematic, quota, opportunity sampling methods",
+                "1.1 Evaluating sampling techniques and sample bias"
+              ]
+            },
+            {
+              "id": "9ma0_s2_data",
+              "title": "2. Data Presentation and Interpretation",
+              "subtopics": [
+                "2.1 Histograms, frequency polygons, box plots, cumulative frequency diagrams",
+                "2.2 Bivariate data: scatter diagrams, explanatory/response variables, regression lines, correlation vs causation",
+                "2.3 Measures of central tendency (mean, median, mode) and variation (variance, standard deviation, IQR)",
+                "2.4 Identifying outliers (1.5xIQR or 2/3 sigma rule), data cleaning",
+                "2.5 Edexcel Large Data Set (LDS) familiarity and contextual analysis"
+              ]
+            },
+            {
+              "id": "9ma0_s3_probability",
+              "title": "3. Probability",
+              "subtopics": [
+                "3.1 Mutually exclusive and independent events, Venn and tree diagrams",
+                "3.2 Conditional probability: P(A|B) = P(A and B) / P(B), two-way tables",
+                "3.3 Probability modelling and critique of assumptions"
+              ]
+            },
+            {
+              "id": "9ma0_s4_distributions",
+              "title": "4. Statistical Distributions",
+              "subtopics": [
+                "4.1 Discrete probability distributions, discrete uniform, binomial distribution B(n, p)",
+                "4.2 Normal distribution N(mu, sigma^2), calculator usage, inflection points, continuity correction",
+                "4.3 Choosing appropriate probability distributions for modelling"
+              ]
+            },
+            {
+              "id": "9ma0_s5_hypothesis",
+              "title": "5. Statistical Hypothesis Testing",
+              "subtopics": [
+                "5.1 Hypothesis testing vocabulary: H0, H1, significance level, 1-tail/2-tail, critical values/regions, p-values",
+                "5.1 Hypothesis test for correlation coefficient using tables/p-values",
+                "5.2 Hypothesis test for proportion in binomial distribution B(n, p)",
+                "5.3 Hypothesis test for the mean of a Normal distribution N(mu, sigma^2/n)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Mechanics",
+          "topics": [
+            {
+              "id": "9ma0_m6_quantities",
+              "title": "6. Quantities and Units in Mechanics",
+              "subtopics": [
+                "6.1 SI base units and derived units (velocity, acceleration, force, weight, moment)"
+              ]
+            },
+            {
+              "id": "9ma0_m7_kinematics",
+              "title": "7. Kinematics",
+              "subtopics": [
+                "7.1 Language of kinematics: displacement, distance, velocity, speed, acceleration",
+                "7.2 Motion graphs (s-t, v-t), gradient and area interpretations",
+                "7.3 Constant acceleration formulae (SUVAT) in 1D and 2D vector form",
+                "7.4 Variable acceleration using calculus (derivatives and integrals of vectors with respect to time)",
+                "7.5 Projectile motion under gravity in a vertical plane using 2D vectors"
+              ]
+            },
+            {
+              "id": "9ma0_m8_forces",
+              "title": "8. Forces and Newton's Laws",
+              "subtopics": [
+                "8.1 Newton's first law, normal reaction, tension, thrust, friction",
+                "8.2 Newton's second law F = ma for motion in a straight line (scalar and 2D vector form)",
+                "8.3 Weight and motion under gravity (g = 9.8 m/s^2)",
+                "8.4 Newton's third law, connected particles, smooth pulleys, equilibrium of coplanar forces",
+                "8.5 Resolving forces in 2 dimensions, resultant forces on inclined planes",
+                "8.6 Friction model: F <= mu*R, limiting friction, coefficient of friction"
+              ]
+            },
+            {
+              "id": "9ma0_m9_moments",
+              "title": "9. Moments",
+              "subtopics": [
+                "9.1 Moments in simple static contexts: force x perpendicular distance, equilibrium of rigid bodies (ladder problems)"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "edexcel_further_maths",
+      "name": "Edexcel A-Level Further Mathematics",
+      "spec_code": "9FM0",
+      "sections": [
+        {
+          "name": "Core Pure Mathematics 1 & 2",
+          "topics": [
+            {
+              "id": "9fm0_cp_1_proof",
+              "title": "1. Proof by Mathematical Induction",
+              "subtopics": [
+                "1.1 Proof by induction: summation of series",
+                "1.1 Proof by induction: divisibility proofs",
+                "1.1 Proof by induction: powers of matrices"
+              ]
+            },
+            {
+              "id": "9fm0_cp_2_complex",
+              "title": "2. Complex Numbers",
+              "subtopics": [
+                "2.1 Solving quadratics, cubics, quartics with real coefficients (conjugate pair roots)",
+                "2.2 Complex arithmetic in Cartesian form x + iy",
+                "2.3 Complex conjugates and properties",
+                "2.4 Argand diagrams, vector addition/subtraction",
+                "2.5 Modulus-argument form conversions (principal argument -pi < theta <= pi)",
+                "2.6 Multiplication and division in mod-arg form",
+                "2.7 Loci in the Argand plane: |z - a| = r, |z - a| = |z - b|, arg(z - a) = beta, inequalities",
+                "2.8 De Moivre's Theorem: multiple angle identities, powers of trig functions, summation of series",
+                "2.9 Exponential form e^{i theta} and Euler's identities for cos theta and sin theta",
+                "2.10 nth roots of complex numbers, vertices of regular n-gons",
+                "2.11 Complex roots of unity and geometric problem solving"
+              ]
+            },
+            {
+              "id": "9fm0_cp_3_matrices",
+              "title": "3. Matrices",
+              "subtopics": [
+                "3.1 Matrix addition, subtraction, multiplication, scalar multiplication",
+                "3.2 Zero and identity matrices",
+                "3.3 Linear transformations in 2D (reflections, rotations, enlargements, shears) and 3D rotations/reflections",
+                "3.4 Invariant points and invariant lines",
+                "3.5 Determinants of 2x2 and 3x3 matrices, area/volume scale factors, orientation",
+                "3.6 Singular and non-singular matrices, inverse matrices (2x2 and 3x3)",
+                "3.7 Solving 3x3 linear simultaneous equations using inverse matrices",
+                "3.8 Geometrical interpretation of 3 simultaneous equations: unique point, sheaf, prism, inconsistent planes"
+              ]
+            },
+            {
+              "id": "9fm0_cp_4_algebra",
+              "title": "4. Further Algebra and Functions",
+              "subtopics": [
+                "4.1 Roots and coefficients of polynomials (Vieta's formulae up to quartics)",
+                "4.2 Linear transformations of polynomial roots",
+                "4.3 Summation of standard series (sum r, sum r^2, sum r^3)",
+                "4.4 Method of differences for series summation using partial fractions",
+                "4.5 Maclaurin series expansions: general term and standard expansions (e^x, ln(1+x), sin x, cos x, (1+x)^n)",
+                "4.6 Series expansions of compound functions"
+              ]
+            },
+            {
+              "id": "9fm0_cp_5_calculus",
+              "title": "5. Further Calculus",
+              "subtopics": [
+                "5.1 Volumes of revolution about x-axis and y-axis (Cartesian and parametric)",
+                "5.2 Evaluation of improper integrals (infinite limits or undefined integrands)",
+                "5.3 Mean value of a function: 1/(b-a) int_a^b f(x) dx",
+                "5.4 Integration using partial fractions with irreducible quadratic denominators (ax^2 + c)",
+                "5.5 Differentiation of inverse trigonometric functions: arcsin, arccos, arctan",
+                "5.6 Integration involving standard forms (a^2 - x^2)^{+/- 1/2} and trigonometric substitutions"
+              ]
+            },
+            {
+              "id": "9fm0_cp_6_vectors",
+              "title": "6. Further Vectors",
+              "subtopics": [
+                "6.1 3D line equations: vector form r = a + lambda*b and Cartesian form",
+                "6.2 Intersection of lines, skew lines, and parallel lines",
+                "6.3 Equation of a plane: vector form r = a + lambda*b + mu*c and Cartesian form ax + by + cz = d",
+                "6.4 Scalar product a.b = |a||b|cos theta, perpendicularity condition, scalar product plane form r.n = k",
+                "6.5 Angles between two lines, line and plane, two planes",
+                "6.6 Shortest distances: point to line, point to plane, distance between skew lines"
+              ]
+            },
+            {
+              "id": "9fm0_cp_7_polar",
+              "title": "7. Polar Coordinates",
+              "subtopics": [
+                "7.1 Polar coordinates (r, theta) and conversion to/from Cartesian (x, y)",
+                "7.2 Sketching polar curves (spirals, cardioids, lima\u00e7ons, rose curves)",
+                "7.3 Area enclosed by a polar curve: 1/2 int r^2 dtheta",
+                "7.4 Tangents parallel and perpendicular to the initial line"
+              ]
+            },
+            {
+              "id": "9fm0_cp_8_hyperbolic",
+              "title": "8. Hyperbolic Functions",
+              "subtopics": [
+                "8.1 Definitions of sinh x, cosh x, tanh x, graphs, domains and ranges",
+                "8.2 Differentiation and integration of hyperbolic functions",
+                "8.3 Inverse hyperbolic functions arsinh, arcosh, artanh: definitions and graphs",
+                "8.4 Logarithmic forms of inverse hyperbolic functions",
+                "8.5 Integration of (x^2 + a^2)^{1/2} and (x^2 - a^2)^{1/2} using hyperbolic substitutions"
+              ]
+            },
+            {
+              "id": "9fm0_cp_9_diff_eq",
+              "title": "9. Differential Equations",
+              "subtopics": [
+                "9.1 First order linear differential equations using integrating factors: dy/dx + P(x)y = Q(x)",
+                "9.2 General and particular solutions, sketching families of solution curves",
+                "9.3 Second order homogeneous linear ODEs: y'' + ay' + by = 0 via auxiliary equation (real, repeated, complex roots)",
+                "9.4 Second order non-homogeneous ODEs: complementary function + particular integral",
+                "9.5 Simple Harmonic Motion ODE: d^2x/dt^2 = -omega^2 x",
+                "9.6 Damped and forced harmonic oscillations, resonance and damping regimes",
+                "9.7 Coupled first-order linear simultaneous differential equations (predator-prey / tank models)"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "aqa_physics",
+      "name": "AQA A-Level Physics",
+      "spec_code": "7408",
+      "sections": [
+        {
+          "name": "Core Content (Sections 1-8)",
+          "topics": [
+            {
+              "id": "7408_1_measurements",
+              "title": "3.1 Measurements and their Errors",
+              "subtopics": [
+                "3.1.1 SI base units, derived units, prefixes (T to f), unit conversions",
+                "3.1.2 Random and systematic errors, precision, repeatability, resolution, accuracy",
+                "3.1.2 Absolute, fractional, and percentage uncertainties; combining uncertainties; error bars",
+                "3.1.2 Uncertainties in straight line gradients and intercepts",
+                "3.1.3 Orders of magnitude estimations"
+              ]
+            },
+            {
+              "id": "7408_2_particles",
+              "title": "3.2 Particles and Radiation",
+              "subtopics": [
+                "3.2.1.1 Constituents of atom, specific charge, nuclide notation, isotopes",
+                "3.2.1.2 Strong nuclear force (range, attraction, repulsion), alpha/beta decay, neutrino hypothesis",
+                "3.2.1.3 Antimatter, rest energy in MeV, pair production and annihilation",
+                "3.2.1.4 Four fundamental interactions, exchange particles (virtual photons, W+, W-)",
+                "3.2.1.5 Classification of particles: hadrons (baryons & mesons), leptons, strange particles, quantum numbers",
+                "3.2.1.6 Quarks (u, d, s) and antiquarks, baryon/meson composition, neutron decay",
+                "3.2.1.7 Conservation laws: charge, baryon number, lepton number, strangeness, momentum, energy",
+                "3.2.2.1 Photoelectric effect: threshold frequency, work function, stopping potential, hf = phi + Ek(max)",
+                "3.2.2.2 Electron collisions with atoms: excitation, ionisation, eV conversion, fluorescent tube",
+                "3.2.2.3 Energy levels and line spectra: hf = E1 - E2",
+                "3.2.2.4 Wave-particle duality: electron diffraction, de Broglie wavelength lambda = h/mv"
+              ]
+            },
+            {
+              "id": "7408_3_waves",
+              "title": "3.3 Waves",
+              "subtopics": [
+                "3.3.1.1 Progressive waves: amplitude, frequency, wavelength, speed c = f*lambda, phase difference",
+                "3.3.1.2 Longitudinal and transverse waves, polarisation and applications",
+                "3.3.1.3 Principle of superposition, stationary waves on strings, harmonics f = 1/(2L) * sqrt(T/mu)",
+                "3.3.2.1 Interference, coherence, path difference, Young's double slit w = lambda*D/s",
+                "3.3.2.2 Single slit diffraction pattern, diffraction grating d sin theta = n lambda",
+                "3.3.2.3 Refraction at plane surface: Snell's law, total internal reflection, step-index optical fibres, modal/material dispersion"
+              ]
+            },
+            {
+              "id": "7408_4_mechanics",
+              "title": "3.4 Mechanics and Materials",
+              "subtopics": [
+                "3.4.1.1 Scalars and vectors, addition, resolution, coplanar equilibrium",
+                "3.4.1.2 Moments, couples, principle of moments, centre of mass",
+                "3.4.1.3 Linear motion: graphs (s-t, v-t, a-t), uniform acceleration SUVAT equations",
+                "3.4.1.4 Projectile motion in 2D, fluid friction, terminal speed",
+                "3.4.1.5 Newton's laws of motion, F = ma",
+                "3.4.1.6 Momentum, impulse F*dt = delta(mv), conservation of linear momentum, elastic/inelastic collisions",
+                "3.4.1.7 Work, energy, power P = Fv, efficiency",
+                "3.4.1.8 Conservation of mechanical energy: Ep = mgh, Ek = 1/2 mv^2",
+                "3.4.2.1 Bulk solids: density rho = m/V, Hooke's law F = k*delta_L, stress, strain, elastic strain energy = 1/2 F*delta_L",
+                "3.4.2.2 Young modulus E = (FL)/(A*delta_L), stress-strain graphs"
+              ]
+            },
+            {
+              "id": "7408_5_electricity",
+              "title": "3.5 Electricity",
+              "subtopics": [
+                "3.5.1.1 Current I = delta_Q/delta_t, pd V = W/Q, resistance R = V/I",
+                "3.5.1.2 I-V characteristics: ohmic conductor, semiconductor diode, filament lamp; Ohm's law",
+                "3.5.1.3 Resistivity rho = RA/L, temperature effect on metals and NTC thermistors, superconductivity",
+                "3.5.1.4 Series and parallel circuits: Kirchhoff's laws, power P = IV = I^2 R = V^2/R",
+                "3.5.1.5 Potential dividers, sensor circuits (LDR, thermistor)",
+                "3.5.1.6 EMF and internal resistance: epsilon = I(R + r), terminal pd"
+              ]
+            },
+            {
+              "id": "7408_6_further_mech_thermal",
+              "title": "3.6 Further Mechanics and Thermal Physics",
+              "subtopics": [
+                "3.6.1.1 Circular motion: angular speed omega = v/r = 2*pi*f, centripetal acceleration a = v^2/r, centripetal force F = mv^2/r",
+                "3.6.1.2 Simple Harmonic Motion (SHM): a = -omega^2 x, x = A cos(omega*t), v = +/- omega*sqrt(A^2 - x^2)",
+                "3.6.1.3 SHM systems: mass-spring T = 2*pi*sqrt(m/k), simple pendulum T = 2*pi*sqrt(L/g), energy exchange",
+                "3.6.1.4 Free and forced vibrations, resonance, damping",
+                "3.6.2.1 Thermal energy transfer: internal energy, first law of thermodynamics, Q = mc*delta_theta, latent heat Q = ml",
+                "3.6.2.2 Ideal gases: gas laws, absolute zero, pV = nRT, pV = NkT, work done = p*delta_V",
+                "3.6.2.3 Molecular kinetic theory: Brownian motion, derivation of pV = 1/3 N m (c_rms)^2, kinetic energy = 3/2 kT"
+              ]
+            },
+            {
+              "id": "7408_7_fields",
+              "title": "3.7 Fields and their Consequences",
+              "subtopics": [
+                "3.7.1 Gravitational vs electrostatic force fields: similarities and differences",
+                "3.7.2.1 Newton's law of gravitation: F = G m1 m2 / r^2",
+                "3.7.2.2 Gravitational field strength g = GM/r^2, radial and uniform fields",
+                "3.7.2.3 Gravitational potential V = -GM/r, potential difference, equipotential surfaces, g = -dV/dr",
+                "3.7.2.4 Planetary and satellite orbits: Kepler's third law T^2 proportional to r^3, escape velocity, geostationary orbits",
+                "3.7.3.1 Coulomb's law: F = (1/(4*pi*epsilon_0)) * (Q1*Q2 / r^2)",
+                "3.7.3.2 Electric field strength E = F/Q, uniform field E = V/d, radial field E = Q/(4*pi*epsilon_0*r^2)",
+                "3.7.3.3 Electric potential V = Q/(4*pi*epsilon_0*r), potential gradient E = -dV/dr",
+                "3.7.4.1 Capacitance C = Q/V",
+                "3.7.4.2 Parallel plate capacitor C = A*epsilon_0*epsilon_r / d, dielectric action",
+                "3.7.4.3 Energy stored in a capacitor: E = 1/2 QV = 1/2 CV^2 = 1/2 Q^2/C",
+                "3.7.4.4 Capacitor charge and discharge curves, time constant RC, half-life T_{1/2} = 0.69 RC, exponential decay Q = Q0 e^{-t/RC}",
+                "3.7.5.1 Magnetic flux density B, force on wire F = BIl, Fleming's left hand rule",
+                "3.7.5.2 Force on moving charge F = BQv, circular trajectory, cyclotron",
+                "3.7.5.3 Magnetic flux phi = BA, flux linkage N*phi = BAN cos theta",
+                "3.7.5.4 Electromagnetic induction: Faraday's and Lenz's laws, induced emf epsilon = N delta_phi/delta_t, rotating coil epsilon = BAN*omega*sin(omega*t)",
+                "3.7.5.5 Alternating currents: rms values Irms = I0/sqrt(2), Vrms = V0/sqrt(2), oscilloscope usage",
+                "3.7.5.6 Transformers: Ns/Np = Vs/Vp, efficiency, eddy currents, high-voltage grid transmission"
+              ]
+            },
+            {
+              "id": "7408_8_nuclear",
+              "title": "3.8 Nuclear Physics",
+              "subtopics": [
+                "3.8.1.1 Rutherford alpha scattering experiment, nuclear model",
+                "3.8.1.2 Alpha, beta, gamma radiation: properties, absorption, inverse-square law for gamma, background radiation",
+                "3.8.1.3 Radioactive decay law: dN/dt = -lambda*N, N = N0 e^{-lambda*t}, activity A = lambda*N, half-life T_{1/2} = ln(2)/lambda",
+                "3.8.1.4 Nuclear instability: N-Z curve, alpha/beta+/beta- decay, electron capture, gamma emission, metastable Tc-99m",
+                "3.8.1.5 Nuclear radius: closest approach method, electron diffraction method, R = R0 A^{1/3}, constant nuclear density",
+                "3.8.1.6 Mass and energy equivalence: E = mc^2, mass defect, binding energy, 1 u = 931.5 MeV, binding energy per nucleon curve",
+                "3.8.1.7 Induced nuclear fission: thermal neutrons, chain reaction, critical mass, moderator, control rods, coolant",
+                "3.8.1.8 Nuclear reactor safety: shielding, remote handling, radioactive waste disposal"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Required Practicals (AQA 1-12)",
+          "topics": [
+            {
+              "id": "7408_practicals",
+              "title": "Required Practical Activities",
+              "subtopics": [
+                "RP1: Frequency of stationary waves on a string with length, tension and mass per unit length",
+                "RP2: Investigation of interference effects: Young's slit and diffraction grating",
+                "RP3: Determination of g by a free-fall method",
+                "RP4: Determination of the Young modulus by a simple method",
+                "RP5: Determination of resistivity of a wire using micrometer, ammeter, voltmeter",
+                "RP6: Investigation of emf and internal resistance of electric cells",
+                "RP7: Simple harmonic motion using mass-spring system and simple pendulum",
+                "RP8: Boyle's law and Charles's law for a gas",
+                "RP9: Charge and discharge of capacitors and determination of RC time constant",
+                "RP10: Force on a wire varying with flux density, current, and length using top pan balance",
+                "RP11: Magnetic flux linkage variation with search coil angle using oscilloscope",
+                "RP12: Inverse-square law for gamma radiation"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cie_cs",
+      "name": "Cambridge International AS & A Level Computer Science",
+      "spec_code": "9618",
+      "sections": [
+        {
+          "name": "AS Level Theory (Paper 1)",
+          "topics": [
+            {
+              "id": "9618_1_info_rep",
+              "title": "1. Information Representation",
+              "subtopics": [
+                "1.1 Data Representation: number bases, two's complement, binary arithmetic, overflow, BCD, hexadecimal, ASCII, Unicode",
+                "1.2 Multimedia: bitmap images (resolution, bit depth, calculations), vector graphics (drawing list, properties), sound sampling",
+                "1.3 Compression: lossy vs lossless, run-length encoding (RLE), text/image/sound compression"
+              ]
+            },
+            {
+              "id": "9618_2_communication",
+              "title": "2. Communication",
+              "subtopics": [
+                "2.1 Networks: LAN, WAN, client-server vs peer-to-peer, thin vs thick client",
+                "2.1 Topologies: bus, star, mesh, hybrid",
+                "2.1 Cloud computing: public vs private, benefits and risks",
+                "2.1 Wired vs wireless transmission media, network hardware (switch, router, NIC, WAP)",
+                "2.1 Ethernet CSMA/CD, bit streaming, IP addressing (IPv4/IPv6, subnetting, public/private, static/dynamic), URL & DNS"
+              ]
+            },
+            {
+              "id": "9618_3_hardware",
+              "title": "3. Hardware",
+              "subtopics": [
+                "3.1 Hardware components: input/output devices, secondary storage (magnetic, optical, solid state), embedded systems",
+                "3.1 RAM vs ROM, SRAM vs DRAM, PROM/EPROM/EEPROM, sensors & actuators in monitoring and control",
+                "3.2 Logic Gates & Circuits: NOT, AND, OR, NAND, NOR, XOR truth tables, logic expressions and circuit diagrams"
+              ]
+            },
+            {
+              "id": "9618_4_processor",
+              "title": "4. Processor Fundamentals",
+              "subtopics": [
+                "4.1 CPU Architecture: Von Neumann model, system clock, buses (data, address, control), registers (PC, MAR, MDR, ACC, IX, CIR, Status)",
+                "4.1 Fetch-Execute cycle, register transfer notation, interrupts and ISR handling",
+                "4.2 Assembly Language: two-pass assembler, addressing modes (immediate, direct, indirect, indexed, relative), instruction tracing",
+                "4.3 Bit manipulation: logical/arithmetic/cyclic shifts, bitwise operations (AND, OR, XOR), masking"
+              ]
+            },
+            {
+              "id": "9618_5_system_software",
+              "title": "5. System Software",
+              "subtopics": [
+                "5.1 Operating Systems: memory, file, security, hardware, process management; utility software; dynamic link libraries (DLL)",
+                "5.2 Language Translators: assemblers, compilers, interpreters; IDE features (debugger, syntax check, prettyprint)"
+              ]
+            },
+            {
+              "id": "9618_6_security",
+              "title": "6. Security, Privacy and Data Integrity",
+              "subtopics": [
+                "6.1 Data security: threats (malware, phishing, pharming), security measures (firewalls, passwords, biometrics, encryption)",
+                "6.2 Data integrity: validation methods (range, format, length, presence, check digit), verification (double entry, parity, checksum)"
+              ]
+            },
+            {
+              "id": "9618_7_ethics",
+              "title": "7. Ethics and Ownership",
+              "subtopics": [
+                "7.1 Professional ethics (BCS, IEEE), copyright legislation, software licenses (open source, shareware, commercial), AI impacts"
+              ]
+            },
+            {
+              "id": "9618_8_databases",
+              "title": "8. Databases",
+              "subtopics": [
+                "8.1 Relational database concepts: entities, keys (primary, foreign, candidate), ER diagrams, normalisation (1NF, 2NF, 3NF)",
+                "8.2 DBMS functions: data dictionary, query processor, data modelling, security",
+                "8.3 SQL DDL: CREATE/ALTER TABLE, PRIMARY KEY, FOREIGN KEY",
+                "8.3 SQL DML: SELECT, WHERE, ORDER BY, GROUP BY, INNER JOIN, INSERT, UPDATE, DELETE"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "AS Level Fundamental Problem-solving & Programming (Paper 2)",
+          "topics": [
+            {
+              "id": "9618_9_algorithms",
+              "title": "9. Algorithm Design and Problem-solving",
+              "subtopics": [
+                "9.1 Computational thinking: abstraction, decomposition",
+                "9.2 Algorithms: pseudocode, flowcharts, structured English, stepwise refinement, identifier tables"
+              ]
+            },
+            {
+              "id": "9618_10_data_structures",
+              "title": "10. Data Types and Structures",
+              "subtopics": [
+                "10.1 Data types and record structures",
+                "10.2 Arrays: 1D and 2D arrays, linear search, bubble sort",
+                "10.3 File handling: reading and writing text files",
+                "10.4 Abstract Data Types: stack, queue, linked list implementations using arrays"
+              ]
+            },
+            {
+              "id": "9618_11_programming",
+              "title": "11. Programming",
+              "subtopics": [
+                "11.1 Programming basics: variable/constant declaration, operators, built-in string functions",
+                "11.2 Control constructs: IF-THEN-ELSE, CASE, count-controlled (FOR), pre-condition (WHILE), post-condition (REPEAT)",
+                "11.3 Structured programming: procedures, functions, parameters by value vs by reference"
+              ]
+            },
+            {
+              "id": "9618_12_software_dev",
+              "title": "12. Software Development",
+              "subtopics": [
+                "12.1 Program development lifecycle models: waterfall, iterative, RAD",
+                "12.2 Program design: structure charts, state-transition diagrams",
+                "12.3 Testing & maintenance: syntax/logic/runtime errors, dry run, white/black box, test plans, corrective/adaptive/perfective maintenance"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "A Level Advanced Theory (Paper 3)",
+          "topics": [
+            {
+              "id": "9618_13_adv_data_rep",
+              "title": "13. Data Representation (Advanced)",
+              "subtopics": [
+                "13.1 User-defined types: enumerated, pointer, record, set, classes",
+                "13.2 File organisation: serial, sequential, random access; hashing algorithms",
+                "13.3 Floating-point numbers: two's complement mantissa & exponent, normalisation, overflow/underflow, rounding errors"
+              ]
+            },
+            {
+              "id": "9618_14_adv_comm",
+              "title": "14. Communication and Internet Technologies",
+              "subtopics": [
+                "14.1 Protocols: TCP/IP four-layer model, application protocols (HTTP, FTP, SMTP, POP3, IMAP, BitTorrent)",
+                "14.2 Packet switching vs circuit switching, router operations"
+              ]
+            },
+            {
+              "id": "9618_15_adv_hardware",
+              "title": "15. Hardware and Virtual Machines",
+              "subtopics": [
+                "15.1 Processors: RISC vs CISC, pipelining, Flynn's taxonomy (SISD, SIMD, MISD, MIMD), virtual machines",
+                "15.2 Boolean algebra: half/full adders, SR & JK flip-flops, De Morgan's laws, Karnaugh maps (K-maps)"
+              ]
+            },
+            {
+              "id": "9618_16_adv_sys_software",
+              "title": "16. System Software (Advanced)",
+              "subtopics": [
+                "16.1 Operating System kernel: process management (ready/running/blocked), scheduling algorithms, virtual memory, paging, segmentation, thrashing",
+                "16.2 Translation software: lexical analysis, syntax analysis, code generation, optimisation, BNF and syntax diagrams, RPN"
+              ]
+            },
+            {
+              "id": "9618_17_adv_security",
+              "title": "17. Security (Advanced)",
+              "subtopics": [
+                "17.1 Asymmetric/symmetric cryptography, public/private keys, quantum cryptography, SSL/TLS handshake, digital certificates"
+              ]
+            },
+            {
+              "id": "9618_18_ai",
+              "title": "18. Artificial Intelligence",
+              "subtopics": [
+                "18.1 AI: graph searches (A* and Dijkstra), artificial neural networks, deep/reinforcement/supervised learning, back-propagation"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "A Level Further Problem-solving & Programming (Paper 4 Practical)",
+          "topics": [
+            {
+              "id": "9618_19_adv_algorithms",
+              "title": "19. Computational Thinking and Problem-solving",
+              "subtopics": [
+                "19.1 Algorithms: linear & binary search, insertion & bubble sort, Big-O time and space complexity",
+                "19.1 ADT algorithms: linked list, binary tree, stack, queue traversal, insertion, and deletion",
+                "19.2 Recursion: base cases, stack frames, unwinding, recursive algorithm tracing and implementation"
+              ]
+            },
+            {
+              "id": "9618_20_further_prog",
+              "title": "20. Further Programming",
+              "subtopics": [
+                "20.1 Programming paradigms: low-level, imperative, OOP (classes, encapsulation, inheritance, polymorphism), declarative",
+                "20.2 File processing (serial, sequential, random) and structured exception handling in Python"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
