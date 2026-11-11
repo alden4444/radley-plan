@@ -9,12 +9,12 @@
   <meta property="og:description" content="Study plan tracking A-Levels for Radley College (July 2027) and SAT prep." />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary" />
-  <meta name="theme-color" content="#090a0c" />
+  <meta name="theme-color" content="#111217" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="A-Levels Plan" />
   <link rel="manifest" href="./manifest.json" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2318181b'/><text x='50%' y='55%' font-size='50' font-family='sans-serif' font-weight='bold' fill='%23fafafa' dominant-baseline='middle' text-anchor='middle'>A</text></svg>" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23111217'/><circle cx='50' cy='50' r='36' fill='%23EF233C'/><text x='50%' y='55%' font-size='42' font-family='sans-serif' font-weight='bold' fill='%23DFE5EB' dominant-baseline='middle' text-anchor='middle'>A</text></svg>" />
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -28,13 +28,26 @@
             mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace']
           },
           colors: {
-            base: {
-              950: '#090a0c',
-              900: '#101216',
-              850: '#16181d',
-              800: '#1f2229',
-              700: '#2c303a',
-              600: '#404552'
+            obsidian: {
+              DEFAULT: '#111217',
+              deep: '#0B0C0E',
+              surface: '#181A22',
+              card: '#1B1E27',
+              border: '#262935',
+              borderHover: '#383C4D'
+            },
+            ice: {
+              DEFAULT: '#DFE5EB',
+              bright: '#F3F6F9',
+              muted: '#8E95A2',
+              dark: '#5E6472'
+            },
+            racing: {
+              DEFAULT: '#EF233C',
+              hover: '#D9162E',
+              dark: '#B00F23',
+              subtle: 'rgba(239, 35, 60, 0.12)',
+              border: 'rgba(239, 35, 60, 0.35)'
             }
           }
         }
@@ -46,97 +59,97 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 
   <style>
-    /* Clean, ultra-minimal typography and interactions */
+    /* Obsidian Black, Ice Grey, Racing Red Palette */
     body {
-      background-color: #090a0c;
-      color: #d4d4d8;
+      background-color: #111217;
+      color: #DFE5EB;
     }
     ::selection {
-      background-color: #27272a;
-      color: #fafafa;
+      background-color: #EF233C;
+      color: #FFFFFF;
     }
     input[type="checkbox"] {
-      accent-color: #71717a;
+      accent-color: #EF233C;
     }
     ::-webkit-scrollbar {
       width: 6px;
       height: 6px;
     }
     ::-webkit-scrollbar-track {
-      background: #090a0c;
+      background: #111217;
     }
     ::-webkit-scrollbar-thumb {
-      background: #27272a;
+      background: #262935;
       border-radius: 3px;
     }
     ::-webkit-scrollbar-thumb:hover {
-      background: #3f3f46;
+      background: #383C4D;
     }
   </style>
 </head>
-<body class="min-h-screen text-zinc-300 font-sans antialiased text-sm">
+<body class="min-h-screen text-ice font-sans antialiased text-sm bg-obsidian">
 
-  <!-- Minimal Toast notification -->
+  <!-- Toast notification -->
   <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
   <!-- Reset Confirmation Modal -->
   <div id="reset-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-xs hidden opacity-0 transition-opacity duration-150">
-    <div class="bg-base-900 border border-zinc-800 rounded-lg p-5 max-w-sm w-full mx-4 shadow-xl">
-      <h3 class="text-sm font-semibold text-zinc-100 mb-2">Reset to initial baseline?</h3>
-      <p class="text-xs text-zinc-400 mb-4 leading-relaxed">
-        This will restore the default checked topics (Maths ~40% Pure, FM 2.1, Physics 3.1, CS Papers 1 & 2) and baseline test scores.
+    <div class="bg-obsidian-surface border border-obsidian-border rounded-xl p-5 max-w-sm w-full mx-4 shadow-2xl">
+      <h3 class="text-sm font-semibold text-ice-bright mb-2">Reset to initial baseline?</h3>
+      <p class="text-xs text-ice-muted mb-4 leading-relaxed">
+        This restores default checked topics (Maths ~40% Pure, FM 2.1, Physics 3.1, CS Papers 1 & 2) and baseline scores.
       </p>
       <div class="flex justify-end gap-2 text-xs">
-        <button id="cancel-reset-btn" class="px-3 py-1.5 rounded text-zinc-300 hover:text-white bg-zinc-800 hover:bg-zinc-700 transition-colors">Cancel</button>
-        <button id="confirm-reset-btn" class="px-3 py-1.5 rounded text-white bg-red-800 hover:bg-red-700 transition-colors">Reset</button>
+        <button id="cancel-reset-btn" class="px-3 py-1.5 rounded-lg text-ice-muted hover:text-ice bg-obsidian-card hover:bg-obsidian-border transition-colors">Cancel</button>
+        <button id="confirm-reset-btn" class="px-3 py-1.5 rounded-lg text-white bg-racing hover:bg-racing-hover transition-colors font-medium">Reset</button>
       </div>
     </div>
   </div>
 
   <!-- Log Test Score Modal -->
   <div id="sat-score-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-xs hidden opacity-0 transition-opacity duration-150">
-    <div class="bg-base-900 border border-zinc-800 rounded-lg p-5 max-w-md w-full mx-4 shadow-xl">
-      <div class="flex items-center justify-between pb-3 border-b border-zinc-800 mb-4">
-        <h3 class="text-sm font-semibold text-zinc-100" id="sat-modal-title">Log Practice Test</h3>
-        <button id="close-sat-modal" class="text-zinc-500 hover:text-zinc-300 text-xs">esc</button>
+    <div class="bg-obsidian-surface border border-obsidian-border rounded-xl p-5 max-w-md w-full mx-4 shadow-2xl">
+      <div class="flex items-center justify-between pb-3 border-b border-obsidian-border mb-4">
+        <h3 class="text-sm font-semibold text-ice-bright" id="sat-modal-title">Log Practice Test</h3>
+        <button id="close-sat-modal" class="text-ice-dark hover:text-ice text-xs">✕</button>
       </div>
       <form id="sat-score-form" class="space-y-3 text-xs">
         <input type="hidden" id="modal-test-id" value="" />
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-zinc-400 mb-1">Test Name</label>
-            <input type="text" id="modal-test-name" required placeholder="Practice Test 1" class="w-full bg-base-950 border border-zinc-800 rounded px-2.5 py-1.5 text-zinc-200 focus:outline-none focus:border-zinc-600" />
+            <label class="block text-ice-muted mb-1">Test Name</label>
+            <input type="text" id="modal-test-name" required placeholder="Practice Test 1" class="w-full bg-obsidian border border-obsidian-border rounded-lg px-2.5 py-1.5 text-ice focus:outline-none focus:border-racing" />
           </div>
           <div>
-            <label class="block text-zinc-400 mb-1">Date</label>
-            <input type="date" id="modal-test-date" required class="w-full bg-base-950 border border-zinc-800 rounded px-2.5 py-1.5 text-zinc-200 focus:outline-none focus:border-zinc-600" />
+            <label class="block text-ice-muted mb-1">Date</label>
+            <input type="date" id="modal-test-date" required class="w-full bg-obsidian border border-obsidian-border rounded-lg px-2.5 py-1.5 text-ice focus:outline-none focus:border-racing" />
           </div>
         </div>
 
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-zinc-400 mb-1">Math (200–800)</label>
-            <input type="number" id="modal-test-math" min="200" max="800" step="10" required placeholder="740" class="w-full bg-base-950 border border-zinc-800 rounded px-2.5 py-1.5 text-zinc-200 focus:outline-none focus:border-zinc-600" />
+            <label class="block text-ice-muted mb-1">Math (200–800)</label>
+            <input type="number" id="modal-test-math" min="200" max="800" step="10" required placeholder="750" class="w-full bg-obsidian border border-obsidian-border rounded-lg px-2.5 py-1.5 text-ice focus:outline-none focus:border-racing" />
           </div>
           <div>
-            <label class="block text-zinc-400 mb-1">Reading & Writing (200–800)</label>
-            <input type="number" id="modal-test-rw" min="200" max="800" step="10" required placeholder="710" class="w-full bg-base-950 border border-zinc-800 rounded px-2.5 py-1.5 text-zinc-200 focus:outline-none focus:border-zinc-600" />
+            <label class="block text-ice-muted mb-1">Reading & Writing (200–800)</label>
+            <input type="number" id="modal-test-rw" min="200" max="800" step="10" required placeholder="700" class="w-full bg-obsidian border border-obsidian-border rounded-lg px-2.5 py-1.5 text-ice focus:outline-none focus:border-racing" />
           </div>
         </div>
 
-        <div class="flex items-center justify-between py-2 px-3 bg-base-950 border border-zinc-800/80 rounded">
-          <span class="text-zinc-400">Total Score:</span>
-          <span class="font-mono font-semibold text-zinc-100" id="modal-calculated-total">--</span>
+        <div class="flex items-center justify-between py-2 px-3 bg-obsidian border border-obsidian-border rounded-lg">
+          <span class="text-ice-muted">Total Score:</span>
+          <span class="font-mono font-semibold text-racing" id="modal-calculated-total">--</span>
         </div>
 
         <div>
-          <label class="block text-zinc-400 mb-1">Notes</label>
-          <input type="text" id="modal-test-notes" placeholder="e.g. 2 missed on quadratic systems, timing ok" class="w-full bg-base-950 border border-zinc-800 rounded px-2.5 py-1.5 text-zinc-200 focus:outline-none focus:border-zinc-600" />
+          <label class="block text-ice-muted mb-1">Notes</label>
+          <input type="text" id="modal-test-notes" placeholder="e.g. Missed 2 quadratic systems, pacing solid" class="w-full bg-obsidian border border-obsidian-border rounded-lg px-2.5 py-1.5 text-ice focus:outline-none focus:border-racing" />
         </div>
 
         <div class="flex justify-end gap-2 pt-2">
-          <button type="button" id="cancel-sat-modal-btn" class="px-3 py-1.5 rounded text-zinc-400 hover:text-zinc-200 bg-zinc-800/80 hover:bg-zinc-800 transition-colors">Cancel</button>
-          <button type="submit" class="px-3 py-1.5 rounded text-white bg-zinc-700 hover:bg-zinc-600 font-medium transition-colors">Save</button>
+          <button type="button" id="cancel-sat-modal-btn" class="px-3 py-1.5 rounded-lg text-ice-muted hover:text-ice bg-obsidian-card hover:bg-obsidian-border transition-colors">Cancel</button>
+          <button type="submit" class="px-3.5 py-1.5 rounded-lg text-white bg-racing hover:bg-racing-hover font-medium transition-colors">Save Score</button>
         </div>
       </form>
     </div>
@@ -145,71 +158,77 @@
   <input type="file" id="import-json-file" accept=".json" class="hidden" />
 
   <!-- Layout Container -->
-  <main class="max-w-5xl mx-auto px-4 py-8 sm:py-10 space-y-8">
+  <main class="max-w-6xl mx-auto px-4 py-8 sm:py-10 space-y-8">
 
-    <!-- 1. HEADER (Simple, human) -->
-    <header class="border-b border-zinc-800/80 pb-5">
-      <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3">
+    <!-- 1. HEADER -->
+    <header class="border-b border-obsidian-border pb-6">
+      <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4">
         <div>
-          <h1 class="text-lg font-semibold tracking-tight text-zinc-100">A-Levels & SAT Plan</h1>
-          <p class="text-xs text-zinc-500 mt-0.5">
+          <div class="flex items-center gap-2.5">
+            <span class="w-2.5 h-2.5 rounded-full bg-racing"></span>
+            <h1 class="text-xl font-bold tracking-tight text-ice-bright">A-Levels & SAT Plan</h1>
+          </div>
+          <p class="text-xs text-ice-muted mt-1">
             Radley College (July 2027) & SAT 1550+ target (March 13, 2027)
           </p>
         </div>
 
-        <!-- Plain, clean actions -->
-        <div class="flex items-center gap-2 text-xs">
-          <button id="download-html-btn" class="px-2.5 py-1 rounded border border-zinc-700 bg-zinc-800 hover:bg-zinc-700 text-zinc-100 transition-colors font-medium" title="Download standalone HTML file to run on any device">Download App</button>
-          <button id="export-json-btn" class="px-2.5 py-1 rounded border border-zinc-800 bg-base-900 hover:bg-zinc-800 text-zinc-300 transition-colors" title="Export progress data to JSON">Export Data</button>
-          <button id="import-json-btn" class="px-2.5 py-1 rounded border border-zinc-800 bg-base-900 hover:bg-zinc-800 text-zinc-300 transition-colors" title="Import progress data from JSON">Import Data</button>
-          <button id="reset-baseline-btn" class="px-2.5 py-1 rounded border border-zinc-800/80 hover:border-red-900/60 text-zinc-500 hover:text-red-400 transition-colors">Reset</button>
+        <!-- Action Controls -->
+        <div class="flex items-center flex-wrap gap-2 text-xs">
+          <button id="download-html-btn" class="px-3 py-1.5 rounded-lg bg-racing hover:bg-racing-hover text-white font-medium transition-colors shadow-sm" title="Download standalone HTML file">Download App</button>
+          <button id="export-json-btn" class="px-2.5 py-1.5 rounded-lg border border-obsidian-border bg-obsidian-surface hover:bg-obsidian-card text-ice transition-colors">Export Data</button>
+          <button id="import-json-btn" class="px-2.5 py-1.5 rounded-lg border border-obsidian-border bg-obsidian-surface hover:bg-obsidian-card text-ice transition-colors">Import Data</button>
+          <button id="reset-baseline-btn" class="px-2.5 py-1.5 rounded-lg border border-obsidian-border text-ice-dark hover:text-racing hover:border-racing/40 transition-colors">Reset</button>
         </div>
       </div>
 
-      <!-- Compact metrics row -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-5 pt-4 border-t border-zinc-850">
-        <div>
-          <div class="text-[11px] text-zinc-500">SAT (March 13, 2027)</div>
-          <div class="text-sm font-mono font-medium text-zinc-200 mt-0.5" id="sat-countdown">--</div>
+      <!-- Live metrics row -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6 pt-4 border-t border-obsidian-border">
+        <div class="p-3 rounded-lg bg-obsidian-surface border border-obsidian-border">
+          <div class="text-[11px] text-ice-muted">SAT (March 13, 2027)</div>
+          <div class="text-sm font-mono font-bold text-ice-bright mt-0.5" id="sat-countdown">--</div>
         </div>
-        <div>
-          <div class="text-[11px] text-zinc-500">Radley College (July 3, 2027)</div>
-          <div class="text-sm font-mono font-medium text-zinc-200 mt-0.5" id="radley-countdown">--</div>
+        <div class="p-3 rounded-lg bg-obsidian-surface border border-obsidian-border">
+          <div class="text-[11px] text-ice-muted">Radley College (July 3, 2027)</div>
+          <div class="text-sm font-mono font-bold text-ice-bright mt-0.5" id="radley-countdown">--</div>
         </div>
-        <div>
-          <div class="text-[11px] text-zinc-500">Syllabus Progress</div>
-          <div class="text-sm font-mono font-medium text-zinc-200 mt-0.5 flex items-baseline gap-1.5">
+        <div class="p-3 rounded-lg bg-obsidian-surface border border-obsidian-border">
+          <div class="text-[11px] text-ice-muted">Syllabus Progress</div>
+          <div class="text-sm font-mono font-bold text-ice-bright mt-0.5 flex items-baseline gap-1.5">
             <span id="global-subtopics-ratio">-- / --</span>
-            <span class="text-xs text-zinc-400 font-normal" id="global-percentage-text">(0%)</span>
+            <span class="text-xs text-racing font-semibold" id="global-percentage-text">(0%)</span>
           </div>
         </div>
-        <div>
-          <div class="text-[11px] text-zinc-500">Pace vs Target</div>
-          <div class="text-sm font-mono font-medium text-zinc-200 mt-0.5" id="pace-summary-text">Calculating...</div>
+        <div class="p-3 rounded-lg bg-obsidian-surface border border-obsidian-border">
+          <div class="text-[11px] text-ice-muted">Target Pace Status</div>
+          <div class="text-sm font-mono font-bold text-ice-bright mt-0.5" id="pace-summary-text">Calculating...</div>
         </div>
       </div>
 
-      <!-- Minimal Progress Bar -->
-      <div class="w-full bg-zinc-900 h-1 rounded-full mt-3 overflow-hidden">
-        <div id="global-progress-bar" class="bg-zinc-400 h-1 transition-all duration-300" style="width: 0%"></div>
+      <!-- Accent Progress Bar -->
+      <div class="w-full bg-obsidian-surface h-1.5 rounded-full mt-3 overflow-hidden border border-obsidian-border">
+        <div id="global-progress-bar" class="bg-racing h-full transition-all duration-300" style="width: 0%"></div>
       </div>
     </header>
 
     <!-- 2. SAT 1550+ PREPARATION -->
-    <section class="border border-zinc-800/80 rounded-lg p-5 bg-base-900/60 space-y-4">
+    <section class="border border-obsidian-border rounded-xl p-5 bg-obsidian-surface space-y-4">
       <div class="flex items-center justify-between">
         <div>
-          <h2 class="text-sm font-semibold text-zinc-100">SAT Prep (Target 1550+)</h2>
-          <p class="text-xs text-zinc-500">Baseline 1300 (650M / 650RW) · Target 1550+ (790–800M / 750+RW)</p>
+          <h2 class="text-sm font-semibold text-ice-bright flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-racing"></span>
+            SAT Prep (Target 1550+)
+          </h2>
+          <p class="text-xs text-ice-muted mt-0.5">Baseline: 1300 (650M / 650RW) · Target: 1550+ (790–800M / 750+RW)</p>
         </div>
-        <button id="add-sat-score-btn" class="px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-750 text-zinc-200 text-xs border border-zinc-700/60 transition-colors">
+        <button id="add-sat-score-btn" class="px-2.5 py-1.5 rounded-lg bg-obsidian-card hover:bg-obsidian-border text-ice text-xs border border-obsidian-border transition-colors font-medium">
           + Log Test
         </button>
       </div>
 
-      <!-- Clean Chart -->
-      <div class="bg-base-950 border border-zinc-850 rounded p-3">
-        <div class="h-40 w-full relative">
+      <!-- Trajectory Chart -->
+      <div class="bg-obsidian border border-obsidian-border rounded-lg p-3">
+        <div class="h-44 w-full relative">
           <canvas id="sat-trajectory-chart"></canvas>
         </div>
       </div>
@@ -218,127 +237,106 @@
       <div class="overflow-x-auto">
         <table class="w-full text-xs text-left border-collapse">
           <thead>
-            <tr class="text-zinc-500 border-b border-zinc-800">
-              <th class="py-1.5 px-2 font-normal">Test</th>
-              <th class="py-1.5 px-2 font-normal">Date</th>
-              <th class="py-1.5 px-2 font-normal">Math</th>
-              <th class="py-1.5 px-2 font-normal">R&W</th>
-              <th class="py-1.5 px-2 font-normal">Total</th>
-              <th class="py-1.5 px-2 font-normal">Notes</th>
-              <th class="py-1.5 px-2 text-right font-normal"></th>
+            <tr class="text-ice-muted border-b border-obsidian-border">
+              <th class="py-2 px-2.5 font-medium">Test Name</th>
+              <th class="py-2 px-2.5 font-medium">Date</th>
+              <th class="py-2 px-2.5 font-medium">Math</th>
+              <th class="py-2 px-2.5 font-medium">R&W</th>
+              <th class="py-2 px-2.5 font-medium">Total</th>
+              <th class="py-2 px-2.5 font-medium">Notes</th>
+              <th class="py-2 px-2.5 text-right font-medium"></th>
             </tr>
           </thead>
-          <tbody id="sat-tests-tbody" class="divide-y divide-zinc-850">
+          <tbody id="sat-tests-tbody" class="divide-y divide-obsidian-border">
             <!-- Dynamic rows -->
           </tbody>
         </table>
       </div>
-
-      <!-- Checkpoints Section -->
-      <div class="pt-3 border-t border-zinc-800/70 space-y-2">
-        <div class="flex items-center justify-between">
-          <span class="text-xs font-medium text-zinc-300">Checkpoints</span>
-          <span id="sat-checklist-counter" class="text-[11px] font-mono text-zinc-500">0/0</span>
-        </div>
-
-        <form id="add-checkpoint-form" class="flex items-center gap-2">
-          <input
-            type="text"
-            id="new-checkpoint-input"
-            placeholder="Add a checkpoint (e.g. Desmos regression, Colon rules)..."
-            class="flex-1 bg-base-950 border border-zinc-800 rounded px-2.5 py-1 text-xs text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-zinc-600"
-          />
-          <button
-            type="submit"
-            class="px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-750 text-zinc-200 text-xs border border-zinc-700/60 transition-colors whitespace-nowrap"
-          >
-            + Add
-          </button>
-        </form>
-
-        <div id="sat-checklist-container" class="space-y-1 pt-1 text-xs">
-          <!-- Dynamic user checkpoints -->
-        </div>
-      </div>
     </section>
 
     <!-- 3. WEEKLY SCHEDULE (20h / week) -->
-    <section class="border border-zinc-800/80 rounded-lg p-5 bg-base-900/60 space-y-3">
+    <section class="border border-obsidian-border rounded-xl p-5 bg-obsidian-surface space-y-3">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
-          <h2 class="text-sm font-semibold text-zinc-100">Weekly Schedule (20h / week)</h2>
-          <p class="text-xs text-zinc-500" id="schedule-subtext">Pre-SAT focus: 4h SAT prep / week. Reallocates to Stats & Mechanics after March 13.</p>
+          <h2 class="text-sm font-semibold text-ice-bright flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-racing"></span>
+            Weekly Schedule (20h / week)
+          </h2>
+          <p class="text-xs text-ice-muted" id="schedule-subtext">Pre-SAT focus: 4h SAT prep / week. Reallocates to Stats & Mechanics after March 13.</p>
         </div>
-        <div class="inline-flex rounded border border-zinc-800 bg-base-950 p-0.5 text-xs self-start sm:self-auto">
-          <button id="phase-presat-btn" class="px-2.5 py-1 rounded text-xs font-medium text-zinc-100 bg-zinc-800 transition-colors">Pre-SAT (Current)</button>
-          <button id="phase-postsat-btn" class="px-2.5 py-1 rounded text-xs font-medium text-zinc-400 hover:text-zinc-200 transition-colors">Post-March 13</button>
+        <div class="inline-flex rounded-lg border border-obsidian-border bg-obsidian p-0.5 text-xs self-start sm:self-auto">
+          <button id="phase-presat-btn" class="px-2.5 py-1 rounded-md text-xs font-medium text-white bg-racing transition-colors">Pre-SAT (Current)</button>
+          <button id="phase-postsat-btn" class="px-2.5 py-1 rounded-md text-xs font-medium text-ice-muted hover:text-ice transition-colors">Post-March 13</button>
         </div>
       </div>
 
-      <!-- Clean Table of Schedule -->
+      <!-- Schedule Table -->
       <div class="overflow-x-auto pt-1">
         <table class="w-full text-xs text-left border-collapse">
           <thead>
-            <tr class="text-zinc-500 border-b border-zinc-800">
-              <th class="py-2 px-2.5 font-normal">Day</th>
-              <th class="py-2 px-2.5 font-normal">Morning</th>
-              <th class="py-2 px-2.5 font-normal">Midday</th>
-              <th class="py-2 px-2.5 font-normal">Afternoon</th>
-              <th class="py-2 px-2.5 text-right font-normal">Total</th>
+            <tr class="text-ice-muted border-b border-obsidian-border">
+              <th class="py-2 px-2.5 font-medium">Day</th>
+              <th class="py-2 px-2.5 font-medium">Morning</th>
+              <th class="py-2 px-2.5 font-medium">Midday</th>
+              <th class="py-2 px-2.5 font-medium">Afternoon</th>
+              <th class="py-2 px-2.5 text-right font-medium">Hours</th>
             </tr>
           </thead>
-          <tbody id="schedule-tbody" class="divide-y divide-zinc-850">
-            <!-- Dynamic days -->
+          <tbody id="schedule-tbody" class="divide-y divide-obsidian-border">
+            <!-- Dynamic schedule rows -->
           </tbody>
         </table>
       </div>
     </section>
 
-    <!-- 4. SYLLABUS -->
+    <!-- 4. A-LEVEL SYLLABUS TRACKER (GRID STRUCTURE) -->
     <section class="space-y-4">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-800/80 pb-3">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-obsidian-border pb-3">
         <div>
-          <h2 class="text-sm font-semibold text-zinc-100">Syllabus</h2>
-          <p class="text-xs text-zinc-500">Track individual subtopics across all 4 subjects</p>
+          <h2 class="text-sm font-semibold text-ice-bright flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-racing"></span>
+            A-Level Syllabus Tracker
+          </h2>
+          <p class="text-xs text-ice-muted">Track progress separated by topic cards in a structured grid</p>
         </div>
 
-        <div class="flex items-center gap-2 text-xs">
-          <input type="text" id="subtopic-search" placeholder="Search..." class="bg-base-900 border border-zinc-800 rounded px-2.5 py-1 text-xs text-zinc-200 focus:outline-none focus:border-zinc-600 w-36 sm:w-44" />
-          <select id="subtopic-filter-status" class="bg-base-900 border border-zinc-800 rounded px-2 py-1 text-xs text-zinc-300 focus:outline-none">
-            <option value="all">All</option>
-            <option value="incomplete">Incomplete</option>
-            <option value="completed">Completed</option>
+        <div class="flex items-center gap-2 text-xs flex-wrap">
+          <input type="text" id="subtopic-search" placeholder="Search topics / formulas..." class="bg-obsidian-surface border border-obsidian-border rounded-lg px-2.5 py-1 text-xs text-ice focus:outline-none focus:border-racing w-40 sm:w-48 placeholder-ice-dark" />
+          <select id="subtopic-filter-status" class="bg-obsidian-surface border border-obsidian-border rounded-lg px-2.5 py-1 text-xs text-ice focus:outline-none focus:border-racing">
+            <option value="all">All Topics</option>
+            <option value="incomplete">Incomplete Only</option>
+            <option value="completed">Completed Only</option>
           </select>
-          <button id="toggle-all-topics-btn" class="px-2 py-1 rounded border border-zinc-800 bg-base-900 text-zinc-400 hover:text-zinc-200">
-            Collapse All
-          </button>
         </div>
       </div>
 
-      <!-- Minimal Tabs -->
-      <div class="flex border-b border-zinc-800 gap-1 overflow-x-auto text-xs" id="subject-tabs-container">
-        <!-- Tab buttons -->
+      <!-- Subject Tabs Navigation -->
+      <div class="flex border-b border-obsidian-border gap-1 overflow-x-auto text-xs" id="subject-tabs-container">
+        <!-- Dynamic tabs with Racing Red underline -->
       </div>
 
-      <!-- Active Subject Status Bar -->
-      <div class="flex items-center justify-between py-2 px-1 text-xs text-zinc-400">
+      <!-- Active Subject Overview Bar -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between py-2 px-3 rounded-lg bg-obsidian-surface border border-obsidian-border text-xs gap-2">
         <div id="subject-status-left" class="flex items-center gap-2">
-          <!-- e.g. Single Maths (9MA0) -->
+          <!-- Full name & spec code -->
         </div>
-        <div id="subject-status-right" class="font-mono text-zinc-300">
-          <!-- 46 / 99 (46%) -->
+        <div class="flex items-center gap-3">
+          <span class="text-ice-muted">Subject Mastery:</span>
+          <span id="subject-status-right" class="font-mono font-semibold text-racing">
+            <!-- 46 / 99 (46%) -->
+          </span>
         </div>
       </div>
 
-      <!-- Topics Accordion List -->
-      <div id="curriculum-topics-container" class="space-y-2">
-        <!-- Rendered dynamically -->
+      <!-- Grid Container for Syllabus Topics -->
+      <div id="curriculum-topics-container" class="space-y-6">
+        <!-- Rendered dynamically as structured section grids -->
       </div>
     </section>
 
-    <footer class="pt-6 pb-12 border-t border-zinc-850 text-xs text-zinc-600 flex justify-between items-center">
+    <footer class="pt-6 pb-12 border-t border-obsidian-border text-xs text-ice-dark flex justify-between items-center">
       <span>Radley College Plan · 2026–2027</span>
-      <span>Saved locally</span>
+      <span>Obsidian / Ice / Racing Red</span>
     </footer>
 
   </main>
@@ -1104,21 +1102,9 @@
         { id: 'sat_2', name: 'Practice Test 2', date: '2026-11-05', math: 750, rw: 690, notes: 'Used Desmos regression for systems' }
       ];
 
-      const satChecklist = {
-        'desmos_regression': true,
-        'desmos_roots': true,
-        'desmos_sliders': true,
-        'grammar_fanboys': true,
-        'grammar_colons': false,
-        'grammar_dashes': false,
-        'transitions_contrast': true,
-        'inference_grounding': false
-      };
-
       return {
         completedSubtopics,
         satPracticeTests,
-        checkpoints: [],
         currentPhase: 'presat',
         activeSubjectId: 'edexcel_single_maths',
         collapsedTopics: {}
@@ -1133,10 +1119,6 @@
         if (raw) {
           const parsed = JSON.parse(raw);
           if (parsed && parsed.completedSubtopics) {
-            parsed.checkpoints = parsed.checkpoints || [];
-            return parsed;
-          }
-        }
             return parsed;
           }
         }
@@ -1159,8 +1141,8 @@
     function showToast(msg) {
       const c = document.getElementById('toast-container');
       const el = document.createElement('div');
-      el.className = 'px-3 py-1.5 rounded bg-zinc-800 border border-zinc-700 text-xs text-zinc-200 shadow transition-opacity duration-200';
-      el.textContent = msg;
+      el.className = 'px-3 py-1.5 rounded-lg bg-obsidian-surface border border-obsidian-border text-xs text-ice font-medium shadow-xl flex items-center gap-2 transition-opacity duration-200';
+      el.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-racing"></span><span>${msg}</span>`;
       c.appendChild(el);
       setTimeout(() => {
         el.style.opacity = '0';
@@ -1251,13 +1233,13 @@
       const summaryEl = document.getElementById('pace-summary-text');
       if (delta >= 1) {
         summaryEl.textContent = `+${delta.toFixed(1)}% ahead`;
-        summaryEl.className = 'text-sm font-mono font-medium text-emerald-400 mt-0.5';
+        summaryEl.className = 'text-sm font-mono font-bold text-racing mt-0.5';
       } else if (delta <= -1) {
         summaryEl.textContent = `${delta.toFixed(1)}% behind`;
-        summaryEl.className = 'text-sm font-mono font-medium text-amber-400 mt-0.5';
+        summaryEl.className = 'text-sm font-mono font-bold text-ice-muted mt-0.5';
       } else {
         summaryEl.textContent = 'On pace';
-        summaryEl.className = 'text-sm font-mono font-medium text-zinc-300 mt-0.5';
+        summaryEl.className = 'text-sm font-mono font-bold text-ice mt-0.5';
       }
     }
 
@@ -1287,19 +1269,23 @@
             {
               label: 'Total Score',
               data: totals,
-              borderColor: '#e4e4e7',
-              backgroundColor: 'transparent',
-              borderWidth: 2,
+              borderColor: '#EF233C',
+              backgroundColor: 'rgba(239, 35, 60, 0.08)',
+              borderWidth: 2.5,
               tension: 0.2,
-              pointBackgroundColor: '#e4e4e7',
-              pointRadius: 4
+              fill: true,
+              pointBackgroundColor: '#EF233C',
+              pointBorderColor: '#111217',
+              pointBorderWidth: 2,
+              pointRadius: 5,
+              pointHoverRadius: 7
             },
             {
               label: '1550 Target',
               data: target,
-              borderColor: '#71717a',
+              borderColor: '#DFE5EB',
               borderWidth: 1.5,
-              borderDash: [4, 4],
+              borderDash: [5, 4],
               pointRadius: 0
             }
           ]
@@ -1313,31 +1299,31 @@
               position: 'top',
               align: 'end',
               labels: {
-                color: '#71717a',
-                boxWidth: 10,
+                color: '#8E95A2',
+                boxWidth: 12,
                 font: { size: 10, family: 'monospace' }
               }
             },
             tooltip: {
-              backgroundColor: '#18181b',
-              titleColor: '#f4f4f5',
-              bodyColor: '#a1a1aa',
-              borderColor: '#27272a',
+              backgroundColor: '#181A22',
+              titleColor: '#DFE5EB',
+              bodyColor: '#DFE5EB',
+              borderColor: '#262935',
               borderWidth: 1,
-              padding: 8,
+              padding: 10,
               displayColors: false
             }
           },
           scales: {
             x: {
               grid: { display: false },
-              ticks: { color: '#71717a', font: { size: 10, family: 'monospace' } }
+              ticks: { color: '#8E95A2', font: { size: 10, family: 'monospace' } }
             },
             y: {
               min: 1200,
               max: 1600,
-              grid: { color: '#18181b' },
-              ticks: { color: '#71717a', stepSize: 100, font: { size: 10, family: 'monospace' } }
+              grid: { color: '#1B1E27' },
+              ticks: { color: '#8E95A2', stepSize: 100, font: { size: 10, family: 'monospace' } }
             }
           }
         }
@@ -1352,16 +1338,16 @@
       sorted.forEach(test => {
         const total = Number(test.math) + Number(test.rw);
         const tr = document.createElement('tr');
-        tr.className = 'hover:bg-zinc-800/30 transition-colors cursor-pointer';
+        tr.className = 'hover:bg-obsidian-card transition-colors cursor-pointer';
         tr.innerHTML = `
-          <td class="py-2 px-2 font-medium text-zinc-200">${test.name}</td>
-          <td class="py-2 px-2 text-zinc-500 font-mono">${test.date}</td>
-          <td class="py-2 px-2 font-mono text-zinc-300">${test.math}</td>
-          <td class="py-2 px-2 font-mono text-zinc-300">${test.rw}</td>
-          <td class="py-2 px-2 font-mono font-medium ${total >= 1550 ? 'text-emerald-400' : 'text-zinc-100'}">${total}</td>
-          <td class="py-2 px-2 text-zinc-500 truncate max-w-xs">${test.notes || '—'}</td>
-          <td class="py-2 px-2 text-right">
-            <button data-del-test="${test.id}" class="text-zinc-600 hover:text-red-400 px-1 py-0.5 text-[11px]">✕</button>
+          <td class="py-2.5 px-2.5 font-medium text-ice-bright">${test.name}</td>
+          <td class="py-2.5 px-2.5 text-ice-muted font-mono">${test.date}</td>
+          <td class="py-2.5 px-2.5 font-mono text-ice">${test.math}</td>
+          <td class="py-2.5 px-2.5 font-mono text-ice">${test.rw}</td>
+          <td class="py-2.5 px-2.5 font-mono font-bold ${total >= 1550 ? 'text-racing' : 'text-ice-bright'}">${total}</td>
+          <td class="py-2.5 px-2.5 text-ice-muted truncate max-w-xs">${test.notes || '—'}</td>
+          <td class="py-2.5 px-2.5 text-right">
+            <button data-del-test="${test.id}" class="text-ice-dark hover:text-racing px-1.5 py-0.5 text-xs transition-colors" title="Delete score">✕</button>
           </td>
         `;
 
@@ -1381,72 +1367,6 @@
         });
 
         tbody.appendChild(tr);
-      });
-    }
-
-    function renderSatChecklist() {
-      const container = document.getElementById('sat-checklist-container');
-      container.innerHTML = '';
-      state.checkpoints = state.checkpoints || [];
-
-      let done = 0;
-      if (state.checkpoints.length === 0) {
-        container.innerHTML = '<div class="text-[11px] text-zinc-600 italic py-1">No checkpoints yet. Type a checkpoint above and press Enter.</div>';
-        document.getElementById('sat-checklist-counter').textContent = '0/0';
-        return;
-      }
-
-      state.checkpoints.forEach(item => {
-        if (item.done) done++;
-
-        const row = document.createElement('div');
-        row.className = 'group flex items-start justify-between gap-2 py-1 px-1.5 rounded hover:bg-zinc-800/40 select-none';
-        row.innerHTML = `
-          <label class="flex items-start gap-2 flex-1 cursor-pointer">
-            <input type="checkbox" data-cp-id="${item.id}" ${item.done ? 'checked' : ''} class="mt-0.5 rounded border-zinc-700 bg-zinc-900 shrink-0" />
-            <span class="${item.done ? 'line-through text-zinc-500' : 'text-zinc-300'} leading-relaxed">${item.text}</span>
-          </label>
-          <button data-del-cp="${item.id}" class="text-zinc-600 hover:text-red-400 opacity-60 group-hover:opacity-100 text-xs px-1 transition-opacity" title="Delete checkpoint">✕</button>
-        `;
-
-        row.querySelector('input').addEventListener('change', (e) => {
-          item.done = e.target.checked;
-          saveState();
-          renderSatChecklist();
-        });
-
-        row.querySelector('[data-del-cp]').addEventListener('click', (e) => {
-          e.stopPropagation();
-          state.checkpoints = state.checkpoints.filter(c => c.id !== item.id);
-          saveState();
-          renderSatChecklist();
-          showToast('Checkpoint removed');
-        });
-
-        container.appendChild(row);
-      });
-
-      document.getElementById('sat-checklist-counter').textContent = `${done}/${state.checkpoints.length}`;
-    }
-
-    // Add Checkpoint Form
-    const addCpForm = document.getElementById('add-checkpoint-form');
-    if (addCpForm) {
-      addCpForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const input = document.getElementById('new-checkpoint-input');
-        const text = input.value.trim();
-        if (!text) return;
-        state.checkpoints = state.checkpoints || [];
-        state.checkpoints.push({
-          id: 'cp_' + Date.now(),
-          text: text,
-          done: false
-        });
-        input.value = '';
-        saveState();
-        renderSatChecklist();
-        showToast('Checkpoint added');
       });
     }
 
@@ -1553,24 +1473,24 @@
       const sub = document.getElementById('schedule-subtext');
 
       if (isPreSat) {
-        btnPre.className = 'px-2.5 py-1 rounded text-xs font-medium text-zinc-100 bg-zinc-800 transition-colors';
-        btnPost.className = 'px-2.5 py-1 rounded text-xs font-medium text-zinc-400 hover:text-zinc-200 transition-colors';
+        btnPre.className = 'px-2.5 py-1 rounded-md text-xs font-medium text-white bg-racing transition-colors';
+        btnPost.className = 'px-2.5 py-1 rounded-md text-xs font-medium text-ice-muted hover:text-ice transition-colors';
         sub.textContent = 'Pre-SAT focus: 4h SAT prep / week. Reallocates to Stats & Mechanics after March 13.';
       } else {
-        btnPost.className = 'px-2.5 py-1 rounded text-xs font-medium text-zinc-100 bg-zinc-800 transition-colors';
-        btnPre.className = 'px-2.5 py-1 rounded text-xs font-medium text-zinc-400 hover:text-zinc-200 transition-colors';
+        btnPost.className = 'px-2.5 py-1 rounded-md text-xs font-medium text-white bg-racing transition-colors';
+        btnPre.className = 'px-2.5 py-1 rounded-md text-xs font-medium text-ice-muted hover:text-ice transition-colors';
         sub.textContent = 'Post-March 13 shift: 4h SAT block shifted directly into Single Maths (Statistics & Mechanics).';
       }
 
       list.forEach(row => {
         const tr = document.createElement('tr');
-        tr.className = 'hover:bg-zinc-800/20';
+        tr.className = 'hover:bg-obsidian-card transition-colors';
         tr.innerHTML = `
-          <td class="py-2 px-2.5 font-medium text-zinc-200">${row.day}</td>
-          <td class="py-2 px-2.5 text-zinc-300">${row.morning}</td>
-          <td class="py-2 px-2.5 text-zinc-300">${row.midday}</td>
-          <td class="py-2 px-2.5 text-zinc-300">${row.afternoon}</td>
-          <td class="py-2 px-2.5 text-right font-mono text-zinc-400">${row.total}</td>
+          <td class="py-2.5 px-2.5 font-medium text-ice-bright">${row.day}</td>
+          <td class="py-2.5 px-2.5 text-ice">${row.morning}</td>
+          <td class="py-2.5 px-2.5 text-ice">${row.midday}</td>
+          <td class="py-2.5 px-2.5 text-ice">${row.afternoon}</td>
+          <td class="py-2.5 px-2.5 text-right font-mono font-medium text-ice-muted">${row.total}</td>
         `;
         tbody.appendChild(tr);
       });
@@ -1587,7 +1507,7 @@
       renderSchedule();
     });
 
-    // Syllabus Tabs & Accordion
+    // Syllabus Tabs
     function renderTabs() {
       const container = document.getElementById('subject-tabs-container');
       container.innerHTML = '';
@@ -1597,10 +1517,10 @@
         const isActive = sub.id === state.activeSubjectId;
         const subStat = stats.subjects[sub.id];
         const btn = document.createElement('button');
-        btn.className = `px-3 py-2 border-b-2 font-medium transition-colors whitespace-nowrap flex items-center gap-1.5 ${isActive ? 'border-zinc-300 text-zinc-100' : 'border-transparent text-zinc-500 hover:text-zinc-300'}`;
+        btn.className = `px-3.5 py-2.5 border-b-2 font-medium transition-colors whitespace-nowrap flex items-center gap-2 ${isActive ? 'border-racing text-ice-bright font-semibold' : 'border-transparent text-ice-muted hover:text-ice'}`;
         btn.innerHTML = `
           <span>${sub.name}</span>
-          <span class="font-mono text-[11px] text-zinc-500">${subStat.pct.toFixed(0)}%</span>
+          <span class="font-mono text-[11px] px-1.5 py-0.5 rounded ${isActive ? 'bg-racing-subtle text-racing border border-racing-border' : 'bg-obsidian-surface text-ice-dark'}">${subStat.pct.toFixed(0)}%</span>
         `;
         btn.addEventListener('click', () => {
           state.activeSubjectId = sub.id;
@@ -1612,6 +1532,7 @@
       });
     }
 
+    // Grid Syllabus Renderer
     function renderSyllabus() {
       const sub = SYLLABUS_DATA.subjects.find(s => s.id === state.activeSubjectId) || SYLLABUS_DATA.subjects[0];
       const stats = getStats();
@@ -1619,8 +1540,8 @@
 
       // Status Bar
       document.getElementById('subject-status-left').innerHTML = `
-        <span class="font-medium text-zinc-200">${sub.full_name}</span>
-        <span class="font-mono text-zinc-500 text-[11px]">${sub.spec_code}</span>
+        <span class="font-semibold text-ice-bright">${sub.full_name}</span>
+        <span class="font-mono text-ice-muted text-[11px] px-2 py-0.5 rounded bg-obsidian border border-obsidian-border">${sub.spec_code}</span>
       `;
       document.getElementById('subject-status-right').textContent = `${subStat.completed} / ${subStat.total} (${subStat.pct.toFixed(1)}%)`;
 
@@ -1631,10 +1552,38 @@
       container.innerHTML = '';
 
       sub.sections.forEach(section => {
+        // Section Header with summary
+        let sectionTotal = 0;
+        let sectionCompleted = 0;
+        section.topics.forEach(top => {
+          sectionTotal += top.subtopics.length;
+          for (let i = 0; i < top.subtopics.length; i++) {
+            if (state.completedSubtopics[`${sub.id}::${top.id}::${i}`]) sectionCompleted++;
+          }
+        });
+        const secPct = sectionTotal > 0 ? (sectionCompleted / sectionTotal) * 100 : 0;
+
+        const sectionBox = document.createElement('div');
+        sectionBox.className = 'space-y-3';
+
         const secHeader = document.createElement('div');
-        secHeader.className = 'text-[11px] font-semibold text-zinc-500 uppercase tracking-wider pt-3 pb-1 border-b border-zinc-850';
-        secHeader.textContent = section.name;
-        container.appendChild(secHeader);
+        secHeader.className = 'flex items-center justify-between pb-2 border-b border-obsidian-border';
+        secHeader.innerHTML = `
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-ice-bright tracking-wide uppercase">${section.name}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="font-mono text-[11px] text-ice-muted">${sectionCompleted}/${sectionTotal}</span>
+            <span class="text-[11px] font-mono px-2 py-0.5 rounded ${secPct === 100 ? 'bg-racing-subtle text-racing border border-racing-border' : 'bg-obsidian border border-obsidian-border text-ice-muted'}">${secPct.toFixed(0)}%</span>
+          </div>
+        `;
+        sectionBox.appendChild(secHeader);
+
+        // Grid for topics in this section
+        const grid = document.createElement('div');
+        grid.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5';
+
+        let visibleTopicsCount = 0;
 
         section.topics.forEach(topic => {
           const totalCount = topic.subtopics.length;
@@ -1654,43 +1603,50 @@
           });
 
           if (filtered.length === 0 && (search || filter !== 'all')) return;
+          visibleTopicsCount++;
 
-          const isCollapsed = !!state.collapsedTopics[`${sub.id}::${topic.id}`];
           const isAll = compCount === totalCount;
+          const topicPct = totalCount > 0 ? (compCount / totalCount) * 100 : 0;
 
           const card = document.createElement('div');
-          card.className = 'border border-zinc-850 rounded bg-base-900/40 text-xs';
+          card.className = `border rounded-xl bg-obsidian-surface transition-all flex flex-col justify-between overflow-hidden ${isAll ? 'border-racing-border/50 bg-obsidian-surface/90' : 'border-obsidian-border hover:border-obsidian-borderHover'}`;
+          
           card.innerHTML = `
-            <div class="topic-row flex items-center justify-between py-2 px-3 cursor-pointer hover:bg-zinc-800/30 select-none">
-              <div class="flex items-center gap-2">
-                <span class="text-zinc-500 text-[10px] w-3">${isCollapsed ? '›' : '⌄'}</span>
-                <span class="font-medium ${isAll ? 'text-zinc-400' : 'text-zinc-200'}">${topic.title}</span>
-              </div>
-              <div class="flex items-center gap-3">
-                <span class="font-mono text-zinc-500 text-[11px]">${compCount}/${totalCount}</span>
-                <button data-quick-topic="${topic.id}" class="text-zinc-500 hover:text-zinc-300 text-[11px] px-1.5 py-0.5 rounded border border-zinc-800">
+            <div>
+              <!-- Card Header -->
+              <div class="p-3 border-b border-obsidian-border bg-obsidian-card/40 flex items-start justify-between gap-2">
+                <div>
+                  <h3 class="text-xs font-semibold ${isAll ? 'text-ice-bright' : 'text-ice'} leading-tight">
+                    ${topic.title}
+                  </h3>
+                  <div class="text-[10px] font-mono text-ice-muted mt-1 flex items-center gap-2">
+                    <span>${compCount}/${totalCount} completed</span>
+                    <span class="text-racing font-semibold">${topicPct.toFixed(0)}%</span>
+                  </div>
+                </div>
+                <button data-quick-topic="${topic.id}" class="text-[10px] font-medium px-2 py-0.5 rounded border border-obsidian-border bg-obsidian hover:bg-obsidian-border text-ice transition-colors shrink-0">
                   ${isAll ? 'Clear' : 'All'}
                 </button>
               </div>
-            </div>
-            <div class="topic-subtopics px-3 pb-2 pt-1 space-y-1 ${isCollapsed ? 'hidden' : ''}">
-              ${filtered.map(item => `
-                <label class="flex items-start gap-2.5 py-1 px-1 rounded hover:bg-zinc-800/40 cursor-pointer">
-                  <input type="checkbox" data-key="${sub.id}::${topic.id}::${item.i}" ${item.isDone ? 'checked' : ''} class="mt-0.5 rounded border-zinc-700 bg-zinc-950" />
-                  <span class="${item.isDone ? 'line-through text-zinc-500' : 'text-zinc-300'} leading-relaxed">${item.text}</span>
-                </label>
-              `).join('')}
+
+              <!-- Mini Progress Bar on Card -->
+              <div class="w-full bg-obsidian h-1 overflow-hidden">
+                <div class="bg-racing h-full transition-all duration-200" style="width: ${topicPct}%"></div>
+              </div>
+
+              <!-- Subtopics Checklist in Card -->
+              <div class="p-3 space-y-2 text-xs max-h-64 overflow-y-auto">
+                ${filtered.map(item => `
+                  <label class="flex items-start gap-2.5 p-1 rounded-lg hover:bg-obsidian-card cursor-pointer select-none transition-colors">
+                    <input type="checkbox" data-key="${sub.id}::${topic.id}::${item.i}" ${item.isDone ? 'checked' : ''} class="mt-0.5 rounded border-obsidian-border bg-obsidian shrink-0" />
+                    <span class="${item.isDone ? 'line-through text-ice-dark' : 'text-ice'} leading-relaxed text-[11px]">${item.text}</span>
+                  </label>
+                `).join('')}
+              </div>
             </div>
           `;
 
-          card.querySelector('.topic-row').addEventListener('click', (e) => {
-            if (e.target.closest('[data-quick-topic]')) return;
-            const k = `${sub.id}::${topic.id}`;
-            state.collapsedTopics[k] = !state.collapsedTopics[k];
-            saveState();
-            renderSyllabus();
-          });
-
+          // Quick Check All / Clear
           card.querySelector('[data-quick-topic]').addEventListener('click', (e) => {
             e.stopPropagation();
             const shouldCheck = !isAll;
@@ -1703,10 +1659,16 @@
             refresh();
           });
 
-          container.appendChild(card);
+          grid.appendChild(card);
         });
+
+        if (visibleTopicsCount > 0) {
+          sectionBox.appendChild(grid);
+          container.appendChild(sectionBox);
+        }
       });
 
+      // Bind all checkboxes
       container.querySelectorAll('input[data-key]').forEach(inp => {
         inp.addEventListener('change', (e) => {
           const k = e.target.getAttribute('data-key');
@@ -1717,23 +1679,6 @@
         });
       });
     }
-
-    // Toggle all topics in current subject
-    let allCollapsed = false;
-    document.getElementById('toggle-all-topics-btn').addEventListener('click', () => {
-      allCollapsed = !allCollapsed;
-      const sub = SYLLABUS_DATA.subjects.find(s => s.id === state.activeSubjectId);
-      if (sub) {
-        sub.sections.forEach(sec => {
-          sec.topics.forEach(top => {
-            state.collapsedTopics[`${sub.id}::${top.id}`] = allCollapsed;
-          });
-        });
-      }
-      document.getElementById('toggle-all-topics-btn').textContent = allCollapsed ? 'Expand All' : 'Collapse All';
-      saveState();
-      renderSyllabus();
-    });
 
     document.getElementById('subtopic-search').addEventListener('input', () => renderSyllabus());
     document.getElementById('subtopic-filter-status').addEventListener('change', () => renderSyllabus());
@@ -1833,7 +1778,6 @@
       renderTabs();
       renderSyllabus();
       renderSatTable();
-      renderSatChecklist();
       renderSatChart();
       renderSchedule();
     }
