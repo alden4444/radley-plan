@@ -13,7 +13,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="A-Levels Plan" />
-  <link rel="manifest" href="/manifest.json" />
+  <link rel="manifest" href="./manifest.json" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2318181b'/><text x='50%' y='55%' font-size='50' font-family='sans-serif' font-weight='bold' fill='%23fafafa' dominant-baseline='middle' text-anchor='middle'>A</text></svg>" />
 
   <!-- Tailwind CSS CDN -->
@@ -234,14 +234,30 @@
         </table>
       </div>
 
-      <!-- Minimal Checklist -->
-      <div class="pt-3 border-t border-zinc-800/70">
-        <div class="flex items-center justify-between mb-2">
-          <span class="text-xs font-medium text-zinc-400">High-Yield Checkpoints</span>
-          <span id="sat-checklist-counter" class="text-[11px] font-mono text-zinc-500">0/8</span>
+      <!-- Checkpoints Section -->
+      <div class="pt-3 border-t border-zinc-800/70 space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-medium text-zinc-300">Checkpoints</span>
+          <span id="sat-checklist-counter" class="text-[11px] font-mono text-zinc-500">0/0</span>
         </div>
-        <div id="sat-checklist-container" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-          <!-- Dynamic checklist items -->
+
+        <form id="add-checkpoint-form" class="flex items-center gap-2">
+          <input
+            type="text"
+            id="new-checkpoint-input"
+            placeholder="Add a checkpoint (e.g. Desmos regression, Colon rules)..."
+            class="flex-1 bg-base-950 border border-zinc-800 rounded px-2.5 py-1 text-xs text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-zinc-600"
+          />
+          <button
+            type="submit"
+            class="px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-750 text-zinc-200 text-xs border border-zinc-700/60 transition-colors whitespace-nowrap"
+          >
+            + Add
+          </button>
+        </form>
+
+        <div id="sat-checklist-container" class="space-y-1 pt-1 text-xs">
+          <!-- Dynamic user checkpoints -->
         </div>
       </div>
     </section>
@@ -1102,7 +1118,7 @@
       return {
         completedSubtopics,
         satPracticeTests,
-        satChecklist,
+        checkpoints: [],
         currentPhase: 'presat',
         activeSubjectId: 'edexcel_single_maths',
         collapsedTopics: {}
@@ -1117,6 +1133,10 @@
         if (raw) {
           const parsed = JSON.parse(raw);
           if (parsed && parsed.completedSubtopics) {
+            parsed.checkpoints = parsed.checkpoints || [];
+            return parsed;
+          }
+        }
             return parsed;
           }
         }
@@ -1364,43 +1384,70 @@
       });
     }
 
-    const SAT_CHECKPOINTS = [
-      { id: 'desmos_regression', text: 'Desmos: regression commands (y1 ~ a(x1-h)^2 + k)' },
-      { id: 'desmos_roots', text: 'Desmos: root finding & system intersections' },
-      { id: 'desmos_sliders', text: 'Desmos: parameter sliders for constant analysis' },
-      { id: 'grammar_fanboys', text: 'Grammar: period = semicolon = comma + FANBOYS' },
-      { id: 'grammar_colons', text: 'Grammar: colon must follow full independent clause' },
-      { id: 'grammar_dashes', text: 'Grammar: dash pairs for nonessential interruptions' },
-      { id: 'transitions_contrast', text: 'R&W: transition classifications (contrast / addition / cause)' },
-      { id: 'inference_grounding', text: 'R&W: strictly eliminate unsupported extreme words (all/never)' }
-    ];
-
     function renderSatChecklist() {
       const container = document.getElementById('sat-checklist-container');
       container.innerHTML = '';
+      state.checkpoints = state.checkpoints || [];
+
       let done = 0;
+      if (state.checkpoints.length === 0) {
+        container.innerHTML = '<div class="text-[11px] text-zinc-600 italic py-1">No checkpoints yet. Type a checkpoint above and press Enter.</div>';
+        document.getElementById('sat-checklist-counter').textContent = '0/0';
+        return;
+      }
 
-      SAT_CHECKPOINTS.forEach(item => {
-        const isChecked = !!state.satChecklist[item.id];
-        if (isChecked) done++;
+      state.checkpoints.forEach(item => {
+        if (item.done) done++;
 
-        const label = document.createElement('label');
-        label.className = 'flex items-start gap-2 py-1 px-1.5 rounded hover:bg-zinc-800/40 cursor-pointer select-none';
-        label.innerHTML = `
-          <input type="checkbox" data-sat-id="${item.id}" ${isChecked ? 'checked' : ''} class="mt-0.5 rounded border-zinc-700 bg-zinc-900" />
-          <span class="${isChecked ? 'line-through text-zinc-500' : 'text-zinc-300'}">${item.text}</span>
+        const row = document.createElement('div');
+        row.className = 'group flex items-start justify-between gap-2 py-1 px-1.5 rounded hover:bg-zinc-800/40 select-none';
+        row.innerHTML = `
+          <label class="flex items-start gap-2 flex-1 cursor-pointer">
+            <input type="checkbox" data-cp-id="${item.id}" ${item.done ? 'checked' : ''} class="mt-0.5 rounded border-zinc-700 bg-zinc-900 shrink-0" />
+            <span class="${item.done ? 'line-through text-zinc-500' : 'text-zinc-300'} leading-relaxed">${item.text}</span>
+          </label>
+          <button data-del-cp="${item.id}" class="text-zinc-600 hover:text-red-400 opacity-60 group-hover:opacity-100 text-xs px-1 transition-opacity" title="Delete checkpoint">✕</button>
         `;
 
-        label.querySelector('input').addEventListener('change', (e) => {
-          state.satChecklist[item.id] = e.target.checked;
+        row.querySelector('input').addEventListener('change', (e) => {
+          item.done = e.target.checked;
           saveState();
           renderSatChecklist();
         });
 
-        container.appendChild(label);
+        row.querySelector('[data-del-cp]').addEventListener('click', (e) => {
+          e.stopPropagation();
+          state.checkpoints = state.checkpoints.filter(c => c.id !== item.id);
+          saveState();
+          renderSatChecklist();
+          showToast('Checkpoint removed');
+        });
+
+        container.appendChild(row);
       });
 
-      document.getElementById('sat-checklist-counter').textContent = `${done}/${SAT_CHECKPOINTS.length}`;
+      document.getElementById('sat-checklist-counter').textContent = `${done}/${state.checkpoints.length}`;
+    }
+
+    // Add Checkpoint Form
+    const addCpForm = document.getElementById('add-checkpoint-form');
+    if (addCpForm) {
+      addCpForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const input = document.getElementById('new-checkpoint-input');
+        const text = input.value.trim();
+        if (!text) return;
+        state.checkpoints = state.checkpoints || [];
+        state.checkpoints.push({
+          id: 'cp_' + Date.now(),
+          text: text,
+          done: false
+        });
+        input.value = '';
+        saveState();
+        renderSatChecklist();
+        showToast('Checkpoint added');
+      });
     }
 
     // Modal
@@ -1695,7 +1742,7 @@
     const downloadHtmlBtn = document.getElementById('download-html-btn');
     if (downloadHtmlBtn) {
       downloadHtmlBtn.addEventListener('click', () => {
-        fetch('/index.html')
+        fetch('./index.html')
           .then(r => r.text())
           .then(html => {
             const blob = new Blob([html], { type: 'text/html' });
